@@ -1,0 +1,73 @@
+{{/*
+Copyright 2018 Kubernetes/Flagship and it's Authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/}}
+
+{{- if and .Values.manifests.typha_deploy (eq .Values.config.common.datastore "kubernetes") }}
+{{- $envAll := . }}
+
+---
+{{/* include "kubernetes-common.semver.apiversion-apps" . */}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: calico-typha
+  namespace: {{ .Release.Namespace }}
+  labels:
+    k8s-app: calico-typha
+spec:
+{{ tuple $envAll | include "kubernetes-common.snippets.kubernetes_upgrades_deployment" | indent 2 }}
+  replicas: {{ .Values.pod.replicas.typha_datastore }}
+  template:
+    metadata:
+      labels:
+        k8s-app: calico-typha
+      annotations:
+        scheduler.alpha.kubernetes.io/critical-pod: ''
+        cluster-autoscaler.kubernetes.io/safe-to-evict: 'true'
+    spec:
+      dnsPolicy: {{ .Values.pod.dns_policy }}
+      containers:
+      - name: calico-typha
+        image: {{ .Values.containers.typha_datastore.image }}
+        imagePullPolicy: {{ .Values.containers.typha_datastore.pull_policy }}
+        ports:
+        - containerPort: 5473
+          name: calico-typha
+          protocol: TCP
+        env:
+{{ include "kubernetes-common.utils.kubernetes_vars" .Values.vars.typha_datastore.calico_typha | indent 10 }}
+        livenessProbe:
+          exec:
+            command:
+            - calico-typha
+            - check
+            - liveness
+          periodSeconds: 30
+          initialDelaySeconds: 30
+        readinessProbe:
+          exec:
+            command:
+            - calico-typha
+            - check
+            - readiness
+          periodSeconds: 10
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+      hostNetwork: true
+      tolerations:
+        - key: CriticalAddonsOnly
+          operator: Exists
+      serviceAccountName: calico-node
+{{ end }}
