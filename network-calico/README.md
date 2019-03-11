@@ -19,6 +19,17 @@ The goal is also to allow flexible and sensible overrides, without compromising 
 
 The chart design is one that needs to clarified for any future development, or pull requests. Starting with the `values.yaml`, you will notice a deliberate operational workflow. Our charts are designed so that all features are accessible at the time of instantiation. This creates a significate amount of thought when working with the chart, but the tradeoff is that the operator can access all typical configuration flags (such as [custom labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) with [operator-driven selectors](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors), access to [container-level resource limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/) and [per-pod dns policies](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/)) that they may not have otherwise in other chart implementations.
 
+**Simplistic Switches**
+
+This chart supplies a simple, easy-to-implement, operational workflow by incorporating high-level switches for the most common Calico reference implementations. When looking over the `values.yaml` file, fine the section entitled `config`. This section will control _how_ Calico is implemented. Some of these options include the following:
+
+- `config.common.datastore` - datastore type options: `kubernetes` (Typha), `etcd` (v3)
+- `config.common.network_mode` - networking mode options: `calico` (L3), `canal` (L2)
+- `config.common.autoscaling.typha.horizontal.enabled` - `true`, `false`
+- `config.common.autoscaling.typha.vertical.enabled` - `true`, `false`
+
+These switches will have top-level control over all other options, with the exection of the `manifests` section at the bottom of the `values.yaml` declaration file. Other high-level configuration options will be added soon, such as setting up etcd as part of the deployment.
+
 **Labels**
 
 Labels are treated as first class citizens in our Helm charts. By default, there is a common list of labels that can be left "as is", turned of, or overriden at the time of instantiation. These common labels are:

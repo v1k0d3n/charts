@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */}}
 
-{{- if and .Values.manifests.typha_deploy_autoscale_horz (eq .Values.config.common.datastore "kubernetes") }}
+{{- if and .Values.manifests.typha_deploy_autoscale_horz (eq .Values.config.common.datastore "kubernetes") (eq .Values.config.common.network_mode "calico") }}
 {{- $envAll := . }}
 
 ---

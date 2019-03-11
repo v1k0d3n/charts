@@ -1,6 +1,0 @@
-dependencies:
-- name: kubernetes-common
-  repository: http://localhost:8879/charts
-  version: 0.1.0
-digest: sha256:4568d7b040af7930238ad1e2c6581ceccf4c184a5d7304ca77f8c809120fa881
-generated: 2019-03-10T12:49:05.645569-06:00

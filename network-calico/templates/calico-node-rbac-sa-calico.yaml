@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */}}
 
-{{- if .Values.manifests.typha_deploy_autoscale_vert }}
+{{- if and .Values.manifests.typha_deploy_autoscale_vert (eq .Values.config.common.network_mode "calico") }}
 {{- $envAll := . }}
 
 ---
