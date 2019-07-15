@@ -17,7 +17,7 @@ limitations under the License.
 {{/*
 abstract: |
   Renders the fqdn for a given app, allows for overrides.
-  Full description can be seen at: https://v1k0d3n.github.io/flagship/helm/kubernetes-common/endpoints
+  Full description can be seen at: TBD
 values: |
 endpoints:
   cluster_domain_suffix: "cluster.local"

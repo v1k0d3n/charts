@@ -13,12 +13,12 @@
 # limitations under the License.
 
 SHELL := /bin/bash
-FSDIR := /opt/flagship
+CHARTDIR := /opt/charts
 PATH := ../bin:$(PATH)
 HELM := helm
 TASK := build
 
-vpath $(HELM) $(FSDIR)/bin/
+vpath $(HELM) $(CHARTDIR)/
 vpath $(HELM) /usr/local/bin/
 vpath $(HELM) ../bin/
 

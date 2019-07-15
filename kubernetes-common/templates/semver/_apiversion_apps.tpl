@@ -1,6 +1,6 @@
 {{/*
 Original work found at: https://github.com/mintel/dex-k8s-authenticator/tree/master/charts/dex
-Although subject to change for the Flagship project.
+Although subject to change.
 */}}
 
 {{/*

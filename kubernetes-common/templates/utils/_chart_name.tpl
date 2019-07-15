@@ -1,6 +1,6 @@
 {{/*
 Original work found at: https://github.com/kubernetes/charts/tree/master/stable/minio
-Although subject to change for the Flagship project.
+Although subject to change.
 */}}
 
 {{/*

@@ -47,7 +47,7 @@ return: |
 {{/*
 abstract: |
   Generates an ingress for the chart, must have a matching service.
-  Read the full documentation at https://v1k0d3n.github.io/flagship/helm/kubernetes-common/snippets for more info
+  Read the full documentation at: TBD
 values: |
   networks:
     k8s_dashboard:
@@ -69,7 +69,7 @@ values: |
         default: kubernetes-dashboard
         public: kubernetes-dashboard
       host_fqdn_override:
-        default: kubernetes-dashboard.flagship.sh
+        default: kubernetes-dashboard.jinkit.com
       host_fqdn_tls:
         public:
           tls: true

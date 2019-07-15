@@ -18,7 +18,7 @@ limitations under the License.
 abstract: |
   Creates metadata labels for a chart based on release_group, date, application name, component, and values.yaml
   Default values can be disabled by setting them to boolean false (I.E. date: false)
-  Full documentation can be seen at: https://v1k0d3n.github.io/flagship/helm/kubernetes-common/snippets
+  Full documentation can be seen at: TBD
 values: |
   labels:
     datacenter: us-east-1
