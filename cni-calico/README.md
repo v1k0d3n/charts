@@ -72,3 +72,20 @@ So as you can see, this level of methodical design on labels provides you with t
 **Containers and Pods**
 
 When looking at a simple [deployment manifest](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#creating-a-deployment) in Kubernetes, you will notice that there are two `spec` fields, which separate `pod` instructions from individual `containers` instructions. Our charts take a similar design approach.
+
+### PLEASE NOTE:
+If you run into an issue where an artifact "already exists", use the following workaround:
+```
+helm install --set vars.calico_node.calico_node.CALICO_IPV4POOL_CIDR="10.25.0.0/22" --namespace kube-system --name calico-v3.4.2 cni-calico-0.1.0.tgz
+```
+
+#### NOTES:
+Workaround for "resource already exists::
+```
+helm upgrade \
+  --install \
+  --set vars.calico_node.calico_node.CALICO_IPV4POOL_CIDR="10.25.0.0/22" \
+  --namespace kube-system calico-v3.4.2 \
+  cni-calico-0.1.0.tgz \
+  --force
+```
