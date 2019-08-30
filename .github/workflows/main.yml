@@ -5,12 +5,12 @@ jobs:
   kind:
     runs-on: ubuntu-latest
     steps:       
-    - name: Helm Build Charts
-      uses: actions/checkout@master
+    - uses: actions/checkout@master
       with:
         version: "v0.5.0" 
-      uses: flydiverny/helm-package-action@master
-      uses: v1k0d3n/setup-kind@v0.1.0
+    - uses: flydiverny/helm-package-action@master
+    - uses: v1k0d3n/setup-kind@v0.1.0
+    - name: Helm Build Charts
       env:
         KUBECONFIG: "$(kind get kubeconfig-path)"
       run: |
