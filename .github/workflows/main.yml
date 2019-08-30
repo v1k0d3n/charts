@@ -11,9 +11,8 @@ jobs:
     - uses: flydiverny/helm-package-action@master
     - uses: v1k0d3n/setup-kind@v0.1.0
     - name: Helm Build Charts
-      env:
-        KUBECONFIG: "$(kind get kubeconfig-path)"
       run: |
+        export KUBECONFIG="$(kind get kubeconfig-path)"
         ls -asl
         whoami
         ls -asl /usr/local/bin/
