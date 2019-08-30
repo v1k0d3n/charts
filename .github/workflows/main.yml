@@ -4,25 +4,21 @@ on: [pull_request, push]
 jobs:
   kind:
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-      with:
-        version: "v0.5.0"        
-    - name: Environmental Checks
-      run: |
-        ls -asl
-        whoami
-    - name: Docker Information
-      run: |
-        docker ps -a
-        docker images 
+    steps:       
     - name: Helm Build Charts
-    - uses: flydiverny/helm-package-action@master
-    - uses: v1k0d3n/setup-kind@v0.1.0
+      uses: actions/checkout@master
+      with:
+        version: "v0.5.0" 
+      uses: flydiverny/helm-package-action@master
+      uses: v1k0d3n/setup-kind@v0.1.0
       env:
         KUBECONFIG: "$(kind get kubeconfig-path)"
       run: |
+        ls -asl
+        whoami
         ls -asl /usr/local/bin/
+        docker ps -a
+        docker images 
         kubectl cluster-info
         kubectl get pods -n kube-system
         helm version --client --short
