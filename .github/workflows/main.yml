@@ -21,6 +21,7 @@ jobs:
         kubectl cluster-info
         kubectl get pods -n kube-system
         helm version --client --short
+        helm init
         make
     - name: Helm Fetch
       env:
