@@ -19,9 +19,6 @@ jobs:
       run: |
         docker ps -a
         docker images
-    - name: Helm Initialize
-      run: |
-        helm init
     - name: Helm Build Charts
       run: |
         make
