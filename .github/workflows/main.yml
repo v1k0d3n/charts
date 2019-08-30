@@ -17,8 +17,8 @@ jobs:
         docker ps -a
         docker images 
     - name: Helm Build Charts
-      uses: flydiverny/helm-package-action@master
-      uses: v1k0d3n/setup-kind@v0.1.0
+    - uses: flydiverny/helm-package-action@master
+    - uses: v1k0d3n/setup-kind@v0.1.0
       env:
         KUBECONFIG: "$(kind get kubeconfig-path)"
       run: |
