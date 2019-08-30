@@ -17,6 +17,8 @@ CHARTDIR := /opt/charts
 PATH := ../bin:$(PATH)
 HELM := helm
 TASK := build
+INSP := inspect
+TEMP := template
 
 vpath $(HELM) $(CHARTDIR)/
 vpath $(HELM) /usr/local/bin/
@@ -47,7 +49,13 @@ repo:
 
 $(CHARTS):
 	@echo
-	@echo "===== Processing [$@] chart ====="
+	@echo "===== Inspecting Chart - [$@] ====="
+	@make $(INSP)-$@
+	@echo
+	@echo "===== Templating Chart - [$@] ====="
+	@make $(TEMP)-$@
+	@echo
+	@echo "===== Packaging Chart - [$@]  ====="
 	@make $(TASK)-$@
 
 init-%:
@@ -59,6 +67,12 @@ lint-%: init-%
 
 build-%: lint-%
 	if [ -d $* ]; then $(HELM) package $*; fi
+
+inspect-%: lint-%
+	if [ -d $* ]; then $(HELM) inspect $*; fi
+
+template-%: lint-%
+	if [ -d $* ]; then $(HELM) template $*; fi
 
 clean:
 	@echo "Removed .b64, _partials.tpl, and _globals.tpl files"
