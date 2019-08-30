@@ -10,15 +10,36 @@ jobs:
     - uses: v1k0d3n/setup-kind@v0.1.0
       with:
         version: "v0.5.0"        
-    - name: KinD Information
+    - name: Environmental Checks
+      env:
       run: |
-        export KUBECONFIG="$(kind get kubeconfig-path)"
-        kubectl cluster-info
-        kubectl get pods -n kube-system
+        ls -asl
+        whoami
     - name: Docker Information
       run: |
         docker ps -a
-        docker images
+        docker images 
+    - name: Kubernetes Information
+      env:
+        KUBECONFIG: "$(kind get kubeconfig-path)"
+      run: |
+        kubectl cluster-info
+        kubectl get pods -n kube-system
+    - name: Helm Fetch
+      env:
+        version_helm: v2.14.3
+        distro_type: linux
+        distro_arch: amd64
+      run: |
+        curl -o /tmp/${version_helm}-${distro_type}-${distro_arch}.tar.gz https://get.helm.sh/helm-${version_helm}-${distro_type}-${distro_arch}.tar.gz
+        tar -zxvf /tmp/${version_helm}-${distro_type}-${distro_arch}.tar.gz -C /tmp/
+        sudo mv /tmp/${distro_type}-${distro_arch}/helm /usr/local/bin/
+        sudo mv /tmp/${distro_type}-${distro_arch}/tiller /usr/local/bin/
+        rm -rf /tmp/${version_helm}-${distro_type}-${distro_arch}.tar.gz
+        rm -rf /tmp/${distro_type}-${distro_arch}
+        helm version --client --short
     - name: Helm Build Charts
+      env:
+        KUBECONFIG: "$(kind get kubeconfig-path)"
       run: |
         make
