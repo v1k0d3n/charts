@@ -22,7 +22,7 @@ vpath $(HELM) $(CHARTDIR)/
 vpath $(HELM) /usr/local/bin/
 vpath $(HELM) ../bin/
 
-EXCLUDES := kubernetes-common doc tests tools logs tmp
+EXCLUDES := kubernetes-common doc tests tools logs tmp $(wildcard v3-*)
 CHARTS := kubernetes-common $(filter-out $(EXCLUDES), $(patsubst %/.,%,$(wildcard */.)))
 
 .PHONY: $(EXCLUDES) $(CHARTS)
