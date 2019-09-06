@@ -6,3 +6,4 @@
 
 # Except for our Helm charts:
 !*.tgz
+index.yaml
