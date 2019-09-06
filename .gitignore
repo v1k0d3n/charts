@@ -1,0 +1,8 @@
+# We obviously want our .gitignore file:
+.gitignore
+
+# But we don't want any files in this branch:
+*
+
+# Except for our Helm charts:
+!*.tgz
