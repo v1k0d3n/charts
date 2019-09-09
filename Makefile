@@ -17,6 +17,7 @@ CHARTDIR := /opt/charts
 PATH := ../bin:$(PATH)
 HELM := helm
 TASK := build
+URL  ?= https://v1k0d3n.github.io/charts/
 
 vpath $(HELM) $(CHARTDIR)/
 vpath $(HELM) /usr/local/bin/
@@ -31,19 +32,26 @@ CHARTS := kubernetes-common $(filter-out $(EXCLUDES), $(patsubst %/.,%,$(wildcar
 
 .SILENT: repo
 
-all: repo $(CHARTS)
+all: repo $(CHARTS) clean-repo
 
 repo:
-	@echo "Removing any unnecessary repos from Helm before continuing."
+	@echo ""
+	@echo "Stage 1: Removing any potential index.yaml artifacts before beginning."
+	@rm -rf ./index.yaml ||:
+	@echo ""
+	@echo "Stage 2: Removing any unnecessary repos from Helm before continuing."
 	@$(HELM) repo remove stable ||:
 	@$(HELM) repo remove local ||:
-	@echo "Killing any stale Helm servers that may be still running."
-	@pkill helm ||:
-	@echo "Starting Helm server named local at: http://localhost:8879/charts"
-	@$(HELM) serve &
+	@echo ""
+	@echo "Stage 4: Clean - Killing any stale Helm servers that may be still running."
+	@pkill $(HELM) ||:
+	@echo ""
+	@echo "Stage 5: Starting Helm server named local at: http://localhost:8879/charts"
+	@$(HELM) serve --repo-path . --url $(URL) &
 	@sleep 2
 	@$(HELM) repo add local 'http://localhost:8879/charts'
-	@echo "Helm server should be ready at this time"
+	@echo ""
+	@echo "Stage 6: Helm server should be ready at this time"
 
 $(CHARTS):
 	@echo
@@ -60,8 +68,13 @@ lint-%: init-%
 build-%: lint-%
 	if [ -d $* ]; then $(HELM) package $*; fi
 
+clean-repo:
+	@echo ""
+	@echo "Clean - Killing the repo at: http://localhost:8879/charts"
+	@pkill $(HELM)
+
 clean:
-	@echo "Removed .b64, _partials.tpl, and _globals.tpl files"
+	@echo "Clean - Removed .b64, _partials.tpl, and _globals.tpl files"
 	rm -f kubernetes-common/secrets/*.b64
 	rm -f */templates/_partials.tpl
 	rm -f */templates/_globals.tpl

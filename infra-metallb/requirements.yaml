@@ -14,5 +14,6 @@
 
 dependencies:
   - name: kubernetes-common
-    repository: http://localhost:8879/charts
     version: 0.1.0
+    repository: file://../kubernetes-common
+    alias: v1k0d3n-charts

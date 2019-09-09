@@ -17,3 +17,7 @@ description: Kubernetes Self-Hosted Chart - SDN Calico
 name: cni-calico
 version: 0.1.0
 icon: https://avatars1.githubusercontent.com/u/12304728
+keywords:
+  - infrastructure
+  - cni
+  - calico

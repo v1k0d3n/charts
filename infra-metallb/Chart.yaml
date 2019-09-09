@@ -17,3 +17,6 @@ appVersion: "1.0"
 description: A Helm chart for Kubernetes
 name: infra-metallb
 version: 0.1.0
+keywords:
+  - infrastructure
+  - bare-metal
