@@ -1,0 +1,98 @@
+{{/*
+Copyright 2019 Brandon B. Jozsa/JinkIT and its Authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/}}
+
+{{- if .Values.manifests.node_ds_calico }}
+{{- $envAll := . }}
+{{- $serviceAccountName := "calico-node"}}
+
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: calico-node
+  namespace: {{ .Release.Namespace }}
+  labels:
+{{ tuple $envAll "calico" "calico-node" | include "kubernetes-common.snippets.kubernetes_metadata_labels" | indent 4 }}
+spec:
+{{- tuple $envAll "calico" "calico_node" | include "kubernetes-common.snippets.kubernetes_upgrades_daemonset" | indent 2 }}
+  selector:
+    matchLabels:
+{{ tuple $envAll "calico" "calico-node" | include "kubernetes-common.snippets.kubernetes_metadata_labels" | indent 6 }}
+  template:
+    metadata:
+      labels:
+{{ tuple $envAll "calico" "calico-node" | include "kubernetes-common.snippets.kubernetes_metadata_labels" | indent 8 }}
+      annotations:
+        scheduler.alpha.kubernetes.io/critical-pod: ''
+    spec:
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+      hostNetwork: true
+{{ dict "component" .Values.pod.tolerations.calico_node | include "kubernetes-common.snippets.kubernetes_cluster_tolerations" | indent 6 }}
+      serviceAccountName: {{ $serviceAccountName }}
+      terminationGracePeriodSeconds: 0
+      initContainers:
+        - name: upgrade-ipam
+          image: {{ .Values.containers.ipam_upgrade.image }}
+          imagePullPolicy: {{ .Values.containers.ipam_upgrade.pull_policy }}
+          command: ["/opt/cni/bin/calico-ipam", "-upgrade"]
+          env:
+{{ include "kubernetes-common.utils.kubernetes_vars" .Values.vars.calico_node.ipam_upgrade | indent 12 }}
+          volumeMounts:
+{{ dict "envAll" $envAll "container" "ipam_upgrade" | include "kubernetes-common.snippets.volume-mount" | indent 12 }}
+        - name: install-cni
+          image: {{ .Values.containers.install_cni.image }}
+          imagePullPolicy: {{ .Values.containers.install_cni.pull_policy }}
+          command: ["/install-cni.sh"]
+          env:
+{{ include "kubernetes-common.utils.kubernetes_vars" .Values.vars.calico_node.install_cni | indent 12 }}
+{{ dict "envAll" . "container" "install_cni" | include "kubernetes-common.snippets.security-context-container" | indent 10 }}
+          volumeMounts:
+{{ dict "envAll" $envAll "container" "install_cni" | include "kubernetes-common.snippets.volume-mount" | indent 12 }}
+        - name: flexvol-driver
+          image: {{ .Values.containers.flexvol_driver.image }}
+          imagePullPolicy: {{ .Values.containers.flexvol_driver.pull_policy }}
+          volumeMounts:
+{{ dict "envAll" $envAll "container" "flexvol_driver" | include "kubernetes-common.snippets.volume-mount" | indent 12 }}
+      containers:
+          image: {{ .Values.containers.calico_node.image }}
+          imagePullPolicy: {{ .Values.containers.calico_node.pull_policy }}
+          env:
+{{ include "kubernetes-common.utils.kubernetes_vars" .Values.vars.calico_node.calico_node | indent 12 }}
+{{ dict "envAll" . "container" "calico_node" | include "kubernetes-common.snippets.security-context-container" | indent 10 }}
+          resources:
+            requests:
+              cpu: 250m
+          livenessProbe:
+            httpGet:
+              path: /liveness
+              port: 9099
+              host: localhost
+            periodSeconds: 10
+            initialDelaySeconds: 10
+            failureThreshold: 6
+          readinessProbe:
+            exec:
+              command:
+              - /bin/calico-node
+              - -bird-ready
+              - -felix-ready
+            periodSeconds: 10
+          volumeMounts:
+{{ dict "envAll" $envAll "container" "calico_node" | include "kubernetes-common.snippets.volume-mount" | indent 12 }}
+      volumes:
+{{ dict "envAll" $envAll "pod" "calico_node" | include "kubernetes-common.snippets.volumes" | indent 8 }}
+{{ end }}

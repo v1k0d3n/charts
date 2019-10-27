@@ -1,0 +1,58 @@
+{{/*
+Copyright 2019 Brandon B. Jozsa/JinkIT and its Authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/}}
+
+{{- if and .Values.config.common.typha.enabled (.Values.config.common.typha.autoscaling.horizontal.enabled) (eq .Values.config.common.datastore.type "kubernetes") }}
+{{- $envAll := . }}
+
+---
+{{/* include "kubernetes-common.semver.apiversion-apps" . */}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: calico-typha-horizontal-autoscaler
+  namespace: {{ .Release.Namespace }}
+  labels:
+{{ tuple $envAll "calico" "typha_autoscale_horz" | include "kubernetes-common.snippets.kubernetes_metadata_labels" | indent 4 }}
+    kubernetes.io/cluster-service: "true"
+    addonmanager.kubernetes.io/mode: Reconcile
+spec:
+  replicas: {{ .Values.pod.replicas.typha_autoscale_horz }}
+  template:
+    metadata:
+      labels:
+{{ tuple $envAll "calico" "typha_autoscale_horz" | include "kubernetes-common.snippets.kubernetes_metadata_labels" | indent 8 }}
+      annotations:
+        scheduler.alpha.kubernetes.io/critical-pod: ''
+    spec:
+      priorityClassName: {{ .Values.pod.priority.class.typha_vertical_autoscaler }}
+      securityContext:
+        supplementalGroups: [ 65534 ]
+        fsGroup: 65534
+      containers:
+      - name: autoscaler
+        image: {{ .Values.containers.typha_autoscale_horz.image }}
+        imagePullPolicy: {{ .Values.containers.typha_autoscale_horz.pull_policy }}
+        command:
+          - /cluster-proportional-autoscaler
+          - --namespace={{ .Release.Namespace }}
+{{  include "kubernetes-common.utils.container_flags" .Values.args.typha_autoscale_horz | trim | indent 10 }}
+        resources:
+          requests:
+            cpu: 10m
+          limits:
+            cpu: 10m
+      serviceAccountName: typha-cpha
+{{ end }}
