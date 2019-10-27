@@ -14,9 +14,10 @@
 
 apiVersion: v1
 description: Kubernetes Self-Hosted Common Library
-name: kubernetes-common
+name: v2-kubernetes-common
 version: 0.1.0
 icon: https://avatars1.githubusercontent.com/u/13629408
 keywords:
   - library
   - kubernetes-common
+  - v2
