@@ -19,7 +19,7 @@ limitations under the License.
 
 ---
 {{/* include "kubernetes-common.semver.apiversion-apps" . */}}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: calico-typha-vertical-autoscaler
