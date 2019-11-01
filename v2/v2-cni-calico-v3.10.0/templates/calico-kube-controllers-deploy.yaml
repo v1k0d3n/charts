@@ -45,7 +45,7 @@ spec:
         beta.kubernetes.io/os: linux
 {{ dict "component" .Values.pod.tolerations.calico_kube_controllers | include "kubernetes-common.snippets.kubernetes_cluster_tolerations" | indent 6 }}
       serviceAccountName: {{ $serviceAccountName }}
-      priorityClassName: system-cluster-critical
+      priorityClassName: {{ .Values.pod.priority.class.calico_kube_controllers }}
       containers:
         - name: calico-kube-controllers
           image: {{ .Values.containers.calico_kube_controllers.image }}

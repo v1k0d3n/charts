@@ -44,6 +44,7 @@ spec:
 {{ dict "component" .Values.pod.tolerations.calico_node | include "kubernetes-common.snippets.kubernetes_cluster_tolerations" | indent 6 }}
       serviceAccountName: {{ $serviceAccountName }}
       terminationGracePeriodSeconds: 0
+      priorityClassName: {{ .Values.pod.priority.class.calico_node }}
       initContainers:
         - name: upgrade-ipam
           image: {{ .Values.containers.ipam_upgrade.image }}

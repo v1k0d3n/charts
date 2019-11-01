@@ -74,4 +74,5 @@ spec:
         - key: CriticalAddonsOnly
           operator: Exists
       serviceAccountName: calico-node
+      priorityClassName: {{ .Values.pod.priority.class.typha_datastore }}
 {{ end }}

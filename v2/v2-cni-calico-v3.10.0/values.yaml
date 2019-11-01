@@ -40,19 +40,17 @@ labels:
   typha_autoscale_vert:
     app: false
     k8s-app: calico-typha-autoscaler
-  ## UNCOMMENT x2: CALICO TYPHA/NODE AUTOSCALING
-  # node_vertical_autoscaler:
-  #   app: false
-  #   k8s-app: calico-node-autoscaler
+  node_vertical_autoscaler:
+    app: false
+    k8s-app: calico-node-autoscaler
 
 pod:
   dns_policy: Default
   replicas:
     typha_datastore: 1
-    ## UNCOMMENT x2: CALICO TYPHA/NODE AUTOSCALING
     typha_autoscale_vert: 1
     typha_autoscale_horz: 1
-    # node_vertical_autoscaler: 1
+    node_vertical_autoscaler: 1
   min_ready_seconds: 0
   lifecycle:
     typha_datastore:
@@ -105,16 +103,14 @@ pod:
         operator: Exists
       - key: node-role.kubernetes.io/master
         effect: NoSchedule
-
-
-  ## UNCOMMENT x2: CALICO PRIORITY CLASSES
   priority:
     class:
+      calico_kube_controllers: system-cluster-critical
+      calico_node: system-cluster-critical
       typha_autoscale_vert: system-cluster-critical
       typha_autoscale_horz: system-cluster-critical
-  #     node_vertical_autoscaler: system-cluster-critical
-  #     typha_datastore: system-cluster-critical
-  #     calico_node: system-cluster-critical
+      node_vertical_autoscaler: system-cluster-critical
+      typha_datastore: system-cluster-critical
 
 containers:
   typha_datastore:
@@ -135,19 +131,17 @@ containers:
   calico_kube_controllers:
     image: calico/kube-controllers:v3.10.0
     pull_policy: IfNotPresent
-  ## UNCOMMENT x2: CALICO TYPHA/NODE AUTOSCALING
   typha_autoscale_horz:
     image: k8s.gcr.io/cluster-proportional-autoscaler-amd64:1.7.1
     pull_policy: IfNotPresent
   typha_autoscale_vert:
     image: k8s.gcr.io/cpvpa-amd64:v0.8.1
     pull_policy: IfNotPresent
-  # node_vertical_autoscaler:
-  #   image: k8s.gcr.io/cpvpa-amd64:v0.8.1
-  #   pull_policy: IfNotPresent
+  node_vertical_autoscaler:
+    image: k8s.gcr.io/cpvpa-amd64:v0.8.1
+    pull_policy: IfNotPresent
 
 args:
-  ## UNCOMMENT x2: CALICO TYPHA/NODE AUTOSCALING
   typha_autoscale_vert:
     target: deployment/calico-typha
     logtostderr: true
@@ -159,12 +153,12 @@ args:
     logtostderr: true
     configmap: calico-typha-horizontal-autoscaler
     v: 2
-  # node_vertical_autoscaler:
-  #   target: daemonset/calico-node
-  #   logtostderr: true
-  #   poll_period_seconds: 30
-  #   config_file: /etc/config/node-autoscaler
-  #   v: 2
+  node_vertical_autoscaler:
+    target: daemonset/calico-node
+    logtostderr: true
+    poll_period_seconds: 30
+    config_file: /etc/config/node-autoscaler
+    v: 2
 
 vars:
   typha_datastore:
@@ -175,10 +169,10 @@ vars:
       TYPHA_CONNECTIONREBALANCINGMODE: "kubernetes"
       TYPHA_DATASTORETYPE: "kubernetes"
       TYPHA_HEALTHENABLED: "true"
-      ## UNCOMMENT: TYPHA DEPLOYMENT SCALING
+      ## UNCOMMENT FOR TYPHA DEPLOYMENT SCALING:
       # TYPHA_REPORTINGINTERVALSECS: "0"
       # TYPHA_MAXCONNECTIONSLOWERLIMIT: "1"
-      ## UNCOMMENT: TYPHA PROMETHEUS METRICS
+      ## UNCOMMENT FOR TYPHA PROMETHEUS METRICS:
       # TYPHA_PROMETHEUSMETRICSENABLED: "true"
       # TYPHA_PROMETHEUSMETRICSPORT: "9093"
   calico_node:
@@ -213,13 +207,6 @@ vars:
           configMapKeyRef:
             name: calico-config
             key: veth_mtu
-      ## UNCOMMENT x2: CALICO v3.5.x VARIABLES
-      # CALICO_NETWORKING_BACKEND: "none"
-      # FELIX_LOGSEVERITYSYS: "none"
-      # FELIX_PROMETHEUSMETRICSENABLED: "true"
-      # FELIX_REPORTINGINTERVALSECS: "0"
-      # FELIX_TYPHAK8SSERVICENAME: "calico-typha"
-      # NO_DEFAULT_POOLS: "true"
     install_cni:
       CNI_CONF_NAME: "10-calico.conflist"
       SLEEP: "false"
@@ -237,10 +224,6 @@ vars:
           configMapKeyRef:
             name: calico-config
             key: veth_mtu
-      ## UNCOMMENT x2: ONLY WHEN CNI IS INSTALLING VIA ENV VARIABLES
-      # CNI_CONF_NAME: "10-calico.conflist"
-      # CNI_NETWORK_CONFIG: |-
-      #   {"name":"k8s-pod-network","cniVersion":"0.3.0","plugins":[{"type":"calico","log_level":"debug","datastore_type":"kubernetes","nodename":"__KUBERNETES_NODE_NAME__","ipam":{"type":"host-local","subnet":"usePodCidr"},"policy":{"type":"k8s","k8s_auth_token":"__SERVICEACCOUNT_TOKEN__"},"kubernetes":{"k8s_api_root":"https://__KUBERNETES_SERVICE_HOST__:__KUBERNETES_SERVICE_PORT__","kubeconfig":"__KUBECONFIG_FILEPATH__"}},{"type":"portmap","capabilities":{"portMappings":true},"snat":true}]}
     ipam_upgrade:
       KUBERNETES_NODE_NAME:
         valueFrom:
@@ -259,7 +242,6 @@ vars:
 volumes:
   pods:
     calico_node:
-    ## HINT: Calico Node
     - name: lib-modules
       hostPath:
         path: /lib/modules
@@ -269,26 +251,16 @@ volumes:
     - name: var-lib-calico
       hostPath:
         path: /var/lib/calico
-    ## UNCOMMENT x2: WHEN RUNNING CALICO SMALL
     - name: xtables-lock
       hostPath:
         path: /run/xtables.lock
         type: FileOrCreate
-    ## HINT: Used to install CNI binaries on the host
     - name: cni-bin-dir
       hostPath:
         path: /opt/cni/bin
-    ## HINT: Used to install CNI network config on the host
     - name: cni-net-dir
       hostPath:
         path: /etc/cni/net.d
-    ## UNCOMMENT x2: WHEN RUNNING CALICO CALICO MEDIUM/LARGE
-    ## Mount in the Felix config file from the host.
-    # - name: etc-calico
-    #   hostPath:
-    #     path: /etc/calico
-    #
-    # Required for v3.10.x
     - name: host-local-net-dir
       hostPath:
         path: /var/lib/cni/networks
@@ -300,19 +272,18 @@ volumes:
       hostPath:
         type: DirectoryOrCreate
         path: /usr/libexec/kubernetes/kubelet-plugins/volume/exec/nodeagent~uds
-#### OLD:
-    typha_autoscale_vert:
-    - name: config
-      configMap:
-        name: calico-typha-vertical-autoscaler
-    #node_vertical_autoscaler:
-    #- name: config
-    #  configMap:
-    #    name: calico-node-vertical-autoscaler
-    #typha_datastore:
-    #- name: etc-calico
-    #  hostPath:
-    #    path: /etc/calico
+    ## UNCOMMENT FOR TYPHA DEPLOYMENT SCALING:
+    # typha_autoscale_vert:
+    # - name: config
+    #   configMap:
+    #     name: calico-typha-vertical-autoscaler
+    # - name: config
+    #   configMap:
+    #     name: calico-node-vertical-autoscaler
+    # typha_datastore:
+    # - name: etc-calico
+    #   hostPath:
+    #     path: /etc/calico
   containers:
     calico_node:
     - mountPath: /lib/modules
@@ -324,16 +295,11 @@ volumes:
     - mountPath: /var/lib/calico
       name: var-lib-calico
       readOnly: false
-    ## UNCOMMENT x2: WHEN RUNNING CALICO SMALL
     - mountPath: /run/xtables.lock
       name: xtables-lock
       readOnly: false
     - name: policysync
       mountPath: /var/run/nodeagent
-    ## UNCOMMENT x2: WHEN RUNNING CALICO MEDIUM/LARGE
-    # - mountPath: /etc/calico
-    #   name: etc-calico
-    #   readOnly: true
     install_cni:
     - mountPath: /host/opt/cni/bin
       name: cni-bin-dir
@@ -347,19 +313,18 @@ volumes:
     flexvol_driver:
     - name: flexvol-driver-host
       mountPath: /host/driver
-#### OLD:
-    typha_autoscale_vert:
-    - name: config
-      mountPath: /etc/config
-    #node_vertical_autoscaler:
-    #- name: config
-    #  mountPath: /etc/config
-    #typha_datastore:
-    #- mountPath: /etc/calico
-    #  name: etc-calico
-    #  readOnly: true
+    ## UNCOMMENT FOR TYPHA DEPLOYMENT SCALING:
+    # typha_autoscale_vert:
+    # - name: config
+    #   mountPath: /etc/config
+    # node_vertical_autoscaler:
+    # - name: config
+    #   mountPath: /etc/config
+    # typha_datastore:
+    # - mountPath: /etc/calico
+    #   name: etc-calico
+    #   readOnly: true
 
-# THIS IS ALL CORRECT:
 config:
   common:
     crds:
@@ -412,7 +377,7 @@ security:
         enabled: true
         privileged: true
     calico_typha:
-    # MAKE SURE TO COMPLETE THIS
+    # v1k0d3n - will come back to complete this in a separate PR
 
   rbac:
     kube_controllers_deploy:
@@ -705,7 +670,6 @@ security:
         verbs:
           - "list"
 
-
 manifests:
   kube_controllers_deploy: true
   node_ds_calico: true
@@ -714,9 +678,9 @@ manifests:
   node_rbac_sa: true
   typha_deploy: true
   typha_deploy_pdb: true
-  #typha_deploy_svc: true
-  #typha_deploy_autoscale_horz: true
-  #typha_deploy_autoscale_vert: true
+  ## UNCOMMENT FOR TYPHA DEPLOYMENT SCALING:
+  # typha_deploy_autoscale_horz: true
+  # typha_deploy_autoscale_vert: true
   crd_bgp_peer: true
   crd_bgp_config: true
   crd_block_affinities: true
