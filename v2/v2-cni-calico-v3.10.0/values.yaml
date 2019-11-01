@@ -113,6 +113,9 @@ pod:
       typha_datastore: system-cluster-critical
 
 containers:
+  calicoctl:
+    image: calico/ctl:v3.10.0
+    pull_policy: IfNotPresent
   typha_datastore:
     image: calico/typha:v3.10.0
     pull_policy: IfNotPresent
@@ -161,6 +164,9 @@ args:
     v: 2
 
 vars:
+  calicoctl:
+    calicoctl:
+      DATASTORE_TYPE: "kubernetes"
   typha_datastore:
     calico_typha:
       TYPHA_LOGSEVERITYSCREEN: "info"
@@ -377,9 +383,71 @@ security:
         enabled: true
         privileged: true
     calico_typha:
+        enabled: true
+        fsGroup: 65534
     # v1k0d3n - will come back to complete this in a separate PR
 
+
   rbac:
+    calicoctl_pod:
+      - apigroups:
+          - ""
+        resources:
+          - namespaces
+          - nodes
+        verbs:
+          - get
+          - list
+          - update
+      - apigroups:
+          - ""
+        resources:
+          - nodes/status
+        verbs:
+          - update
+      - apigroups:
+          - ""
+        resources:
+          - pods
+          - serviceaccounts
+        verbs:
+          - get
+          - list
+      - apigroups:
+          - ""
+        resources:
+          - pods/status
+        verbs:
+          - update
+      - apigroups:
+          - "crd.projectcalico.org"
+        resources:
+          - bgppeers
+          - bgpconfigurations
+          - clusterinformations
+          - felixconfigurations
+          - globalnetworkpolicies
+          - globalnetworksets
+          - ippools
+          - networkpolicies
+          - networksets
+          - hostendpoints
+          - ipamblocks
+          - blockaffinities
+          - ipamhandles
+        verbs:
+          - create
+          - get
+          - list
+          - update
+          - delete
+      - apigroups:
+          - "networking.k8s.io"
+        resources:
+          - networkpolicies
+        verbs:
+          - get
+          - list
     kube_controllers_deploy:
       - apigroups:
           - ""
@@ -538,7 +606,6 @@ security:
           - blockaffinities
         verbs:
           - watch
-
       - apigroups:
           - "apps"
         resources:
@@ -671,6 +738,7 @@ security:
           - "list"
 
 manifests:
+  calicoctl_pod: true
   kube_controllers_deploy: true
   node_ds_calico: true
   node_rbac_cr: true
