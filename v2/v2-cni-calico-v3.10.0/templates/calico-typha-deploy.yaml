@@ -28,6 +28,9 @@ metadata:
 {{ tuple $envAll "calico" "typha_datastore" | include "kubernetes-common.snippets.kubernetes_metadata_labels" | indent 4 }}
 spec:
 {{ tuple $envAll "typha_datastore" | include "kubernetes-common.snippets.kubernetes_upgrades_deployment" | indent 2 }}
+  selector:
+    matchLabels:
+{{ tuple $envAll "calico" "typha_datastore" | include "kubernetes-common.snippets.kubernetes_metadata_labels" | indent 6 }}
   replicas: {{ .Values.pod.replicas.typha_datastore }}
   template:
     metadata:
@@ -49,20 +52,21 @@ spec:
         env:
 {{ include "kubernetes-common.utils.kubernetes_vars" .Values.vars.typha_datastore.calico_typha | indent 10 }}
         livenessProbe:
-          exec:
-            command:
-            - calico-typha
-            - check
-            - liveness
+          httpGet:
+            path: /liveness
+            port: 9098
+            host: localhost
           periodSeconds: 30
           initialDelaySeconds: 30
         readinessProbe:
-          exec:
-            command:
-            - calico-typha
-            - check
-            - readiness
+          httpGet:
+            path: /readiness
+            port: 9098
+            host: localhost
           periodSeconds: 10
+        securityContext:
+          runAsNonRoot: true
+          allowPrivilegeEscalation: false
       nodeSelector:
         beta.kubernetes.io/os: linux
       hostNetwork: true

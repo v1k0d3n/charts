@@ -31,6 +31,9 @@ labels:
   calico-node:
     app: false
     k8s-app: calico-node
+  calico_kube_controllers:
+    app: false
+    k8s-app: calico-kube-controllers
   typha_autoscale_horz:
     app: false
     k8s-app: calico-typha-autoscaler
@@ -66,6 +69,17 @@ pod:
       termination_grace_period:
         typha_datastore:
           timeout: 30
+    calico_kube_controllers:
+      upgrades:
+        deployments:
+          revision_history: 5
+          pod_replacement_strategy: Recreate
+      disruption_budget:
+        calico_kube_controllers:
+          min_available: 1
+      termination_grace_period:
+        calico_kube_controllers:
+          timeout: 30
     calico:
       upgrades:
         daemonsets:
@@ -84,6 +98,13 @@ pod:
         operator: Exists
       - effect: NoExecute
         operator: Exists
+    calico_kube_controllers:
+      enabled: true
+      tolerations:
+      - key: CriticalAddonsOnly
+        operator: Exists
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
 
 
   ## UNCOMMENT x2: CALICO PRIORITY CLASSES
@@ -230,8 +251,10 @@ vars:
           configMapKeyRef:
             name: calico-config
             key: calico_backend
-
-
+  calico_kube_controllers:
+    calico_kube_controllers:
+      ENABLED_CONTROLLERS: node
+      DATASTORE_TYPE: kubernetes
 
 volumes:
   pods:
@@ -264,6 +287,19 @@ volumes:
     # - name: etc-calico
     #   hostPath:
     #     path: /etc/calico
+    #
+    # Required for v3.10.x
+    - name: host-local-net-dir
+      hostPath:
+        path: /var/lib/cni/networks
+    - name: policysync
+      hostPath:
+        type: DirectoryOrCreate
+        path: /var/run/nodeagent
+    - name: flexvol-driver-host
+      hostPath:
+        type: DirectoryOrCreate
+        path: /usr/libexec/kubernetes/kubelet-plugins/volume/exec/nodeagent~uds
 #### OLD:
     typha_autoscale_vert:
     - name: config
@@ -292,6 +328,8 @@ volumes:
     - mountPath: /run/xtables.lock
       name: xtables-lock
       readOnly: false
+    - name: policysync
+      mountPath: /var/run/nodeagent
     ## UNCOMMENT x2: WHEN RUNNING CALICO MEDIUM/LARGE
     # - mountPath: /etc/calico
     #   name: etc-calico
@@ -373,7 +411,51 @@ security:
       security_context:
         enabled: true
         privileged: true
+    calico_typha:
+    # MAKE SURE TO COMPLETE THIS
+
   rbac:
+    kube_controllers_deploy:
+      - apigroups:
+          - ""
+        resources:
+          - nodes
+        verbs:
+          - watch
+          - list
+          - get
+      - apigroups:
+          - ""
+        resources:
+          - pods
+        verbs:
+          - get
+      - apigroups:
+          - "crd.projectcalico.org"
+        resources:
+          - ippools
+        verbs:
+          - list
+      - apigroups:
+          - "crd.projectcalico.org"
+        resources:
+          - blockaffinities
+          - ipamblocks
+          - ipamhandles
+        verbs:
+          - get
+          - list
+          - create
+          - update
+          - delete
+      - apigroups:
+          - "crd.projectcalico.org"
+        resources:
+          - clusterinformations
+        verbs:
+          - get
+          - create
+          - update
     calico_node:
       - apigroups:
           - ""
@@ -625,6 +707,7 @@ security:
 
 
 manifests:
+  kube_controllers_deploy: true
   node_ds_calico: true
   node_rbac_cr: true
   node_rbac_crb: true
