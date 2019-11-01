@@ -1,0 +1,697 @@
+# Copyright 2019 Brandon B. Jozsa/JinkIT and its Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# DEPLOYMENT DETAILS:
+#  - Global Version: v3.10.0
+#  - Node Version: v3.10.0
+#  - CNI Version: v3.10.0
+# DOCUMENTATION: https://docs.projectcalico.org/v3.10/release-notes/
+
+release_group: null
+
+labels:
+  app: false
+  date: true
+  component: false
+  release_group: false
+  typha_datastore:
+    app: false
+    k8s-app: calico-typha
+  calico-node:
+    app: false
+    k8s-app: calico-node
+  calico_kube_controllers:
+    app: false
+    k8s-app: calico-kube-controllers
+  typha_autoscale_horz:
+    app: false
+    k8s-app: calico-typha-autoscaler
+  typha_autoscale_vert:
+    app: false
+    k8s-app: calico-typha-autoscaler
+  node_vertical_autoscaler:
+    app: false
+    k8s-app: calico-node-autoscaler
+
+pod:
+  dns_policy: Default
+  replicas:
+    typha_datastore: 1
+    typha_autoscale_vert: 1
+    typha_autoscale_horz: 1
+    node_vertical_autoscaler: 1
+  min_ready_seconds: 0
+  lifecycle:
+    typha_datastore:
+      upgrades:
+        deployments:
+          revision_history: 5
+          pod_replacement_strategy: RollingUpdate
+          rolling_update:
+            max_unavailable: 1
+            max_surge: 1
+      disruption_budget:
+        typha_datastore:
+          min_available: 1
+      termination_grace_period:
+        typha_datastore:
+          timeout: 30
+    calico_kube_controllers:
+      upgrades:
+        deployments:
+          revision_history: 5
+          pod_replacement_strategy: Recreate
+      disruption_budget:
+        calico_kube_controllers:
+          min_available: 1
+      termination_grace_period:
+        calico_kube_controllers:
+          timeout: 30
+    calico:
+      upgrades:
+        daemonsets:
+          pod_replacement_strategy: RollingUpdate
+          calico_node:
+            enabled: true
+            min_ready_seconds: 0
+            max_unavailable: 1
+  tolerations:
+    calico_node:
+      enabled: true
+      tolerations:
+      - effect: NoSchedule
+        operator: Exists
+      - key: CriticalAddonsOnly
+        operator: Exists
+      - effect: NoExecute
+        operator: Exists
+    calico_kube_controllers:
+      enabled: true
+      tolerations:
+      - key: CriticalAddonsOnly
+        operator: Exists
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+  priority:
+    class:
+      calico_kube_controllers: system-cluster-critical
+      calico_node: system-cluster-critical
+      typha_autoscale_vert: system-cluster-critical
+      typha_autoscale_horz: system-cluster-critical
+      node_vertical_autoscaler: system-cluster-critical
+      typha_datastore: system-cluster-critical
+
+containers:
+  typha_datastore:
+    image: calico/typha:v3.10.0
+    pull_policy: IfNotPresent
+  calico_node:
+    image: calico/node:v3.10.0
+    pull_policy: IfNotPresent
+  install_cni:
+    image: calico/cni:v3.10.0
+    pull_policy: IfNotPresent
+  ipam_upgrade:
+    image: calico/cni:v3.10.0
+    pull_policy: IfNotPresent
+  flexvol_driver:
+    image: calico/pod2daemon-flexvol:v3.10.0
+    pull_policy: IfNotPresent
+  calico_kube_controllers:
+    image: calico/kube-controllers:v3.10.0
+    pull_policy: IfNotPresent
+  typha_autoscale_horz:
+    image: k8s.gcr.io/cluster-proportional-autoscaler-amd64:1.7.1
+    pull_policy: IfNotPresent
+  typha_autoscale_vert:
+    image: k8s.gcr.io/cpvpa-amd64:v0.8.1
+    pull_policy: IfNotPresent
+  node_vertical_autoscaler:
+    image: k8s.gcr.io/cpvpa-amd64:v0.8.1
+    pull_policy: IfNotPresent
+
+args:
+  typha_autoscale_vert:
+    target: deployment/calico-typha
+    logtostderr: true
+    poll_period_seconds: 30
+    config_file: /etc/config/typha-autoscaler
+    v: 2
+  typha_autoscale_horz:
+    target: deployment/calico-typha
+    logtostderr: true
+    configmap: calico-typha-horizontal-autoscaler
+    v: 2
+  node_vertical_autoscaler:
+    target: daemonset/calico-node
+    logtostderr: true
+    poll_period_seconds: 30
+    config_file: /etc/config/node-autoscaler
+    v: 2
+
+vars:
+  typha_datastore:
+    calico_typha:
+      TYPHA_LOGSEVERITYSCREEN: "info"
+      TYPHA_LOGFILEPATH: "none"
+      TYPHA_LOGSEVERITYSYS: "none"
+      TYPHA_CONNECTIONREBALANCINGMODE: "kubernetes"
+      TYPHA_DATASTORETYPE: "kubernetes"
+      TYPHA_HEALTHENABLED: "true"
+      ## UNCOMMENT FOR TYPHA DEPLOYMENT SCALING:
+      # TYPHA_REPORTINGINTERVALSECS: "0"
+      # TYPHA_MAXCONNECTIONSLOWERLIMIT: "1"
+      ## UNCOMMENT FOR TYPHA PROMETHEUS METRICS:
+      # TYPHA_PROMETHEUSMETRICSENABLED: "true"
+      # TYPHA_PROMETHEUSMETRICSPORT: "9093"
+  calico_node:
+    calico_node:
+      CALICO_IPV4POOL_CIDR: "10.25.0.0/16"
+      CALICO_DISABLE_FILE_LOGGING: "true"
+      FELIX_DEFAULTENDPOINTTOHOSTACTION: "ACCEPT"
+      FELIX_IPV6SUPPORT: "false"
+      FELIX_LOGSEVERITYSCREEN: "info"
+      FELIX_HEALTHENABLED: "true"
+      CLUSTER_TYPE: "k8s,bgp"
+      IP: "autodetect"
+      CALICO_IPV4POOL_IPIP: "Always"
+      DATASTORE_TYPE: "kubernetes"
+      WAIT_FOR_DATASTORE: "true"
+      FELIX_TYPHAK8SSERVICENAME:
+        valueFrom:
+          configMapKeyRef:
+            name: calico-config
+            key: typha_service_name
+      NODENAME:
+        valueFrom:
+          fieldRef:
+            fieldPath: spec.nodeName
+      CALICO_NETWORKING_BACKEND:
+        valueFrom:
+          configMapKeyRef:
+            name: calico-config
+            key: calico_backend
+      FELIX_IPINIPMTU:
+        valueFrom:
+          configMapKeyRef:
+            name: calico-config
+            key: veth_mtu
+    install_cni:
+      CNI_CONF_NAME: "10-calico.conflist"
+      SLEEP: "false"
+      CNI_NETWORK_CONFIG:
+        valueFrom:
+          configMapKeyRef:
+            name: calico-config
+            key: cni_network_config
+      KUBERNETES_NODE_NAME:
+        valueFrom:
+          fieldRef:
+            fieldPath: spec.nodeName
+      CNI_MTU:
+        valueFrom:
+          configMapKeyRef:
+            name: calico-config
+            key: veth_mtu
+    ipam_upgrade:
+      KUBERNETES_NODE_NAME:
+        valueFrom:
+          fieldRef:
+            fieldPath: spec.nodeName
+      CALICO_NETWORKING_BACKEND:
+        valueFrom:
+          configMapKeyRef:
+            name: calico-config
+            key: calico_backend
+  calico_kube_controllers:
+    calico_kube_controllers:
+      ENABLED_CONTROLLERS: node
+      DATASTORE_TYPE: kubernetes
+
+volumes:
+  pods:
+    calico_node:
+    - name: lib-modules
+      hostPath:
+        path: /lib/modules
+    - name: var-run-calico
+      hostPath:
+        path: /var/run/calico
+    - name: var-lib-calico
+      hostPath:
+        path: /var/lib/calico
+    - name: xtables-lock
+      hostPath:
+        path: /run/xtables.lock
+        type: FileOrCreate
+    - name: cni-bin-dir
+      hostPath:
+        path: /opt/cni/bin
+    - name: cni-net-dir
+      hostPath:
+        path: /etc/cni/net.d
+    - name: host-local-net-dir
+      hostPath:
+        path: /var/lib/cni/networks
+    - name: policysync
+      hostPath:
+        type: DirectoryOrCreate
+        path: /var/run/nodeagent
+    - name: flexvol-driver-host
+      hostPath:
+        type: DirectoryOrCreate
+        path: /usr/libexec/kubernetes/kubelet-plugins/volume/exec/nodeagent~uds
+    ## UNCOMMENT FOR TYPHA DEPLOYMENT SCALING:
+    # typha_autoscale_vert:
+    # - name: config
+    #   configMap:
+    #     name: calico-typha-vertical-autoscaler
+    # - name: config
+    #   configMap:
+    #     name: calico-node-vertical-autoscaler
+    # typha_datastore:
+    # - name: etc-calico
+    #   hostPath:
+    #     path: /etc/calico
+  containers:
+    calico_node:
+    - mountPath: /lib/modules
+      name: lib-modules
+      readOnly: true
+    - mountPath: /var/run/calico
+      name: var-run-calico
+      readOnly: false
+    - mountPath: /var/lib/calico
+      name: var-lib-calico
+      readOnly: false
+    - mountPath: /run/xtables.lock
+      name: xtables-lock
+      readOnly: false
+    - name: policysync
+      mountPath: /var/run/nodeagent
+    install_cni:
+    - mountPath: /host/opt/cni/bin
+      name: cni-bin-dir
+    - mountPath: /host/etc/cni/net.d
+      name: cni-net-dir
+    ipam_upgrade:
+    - mountPath: /var/lib/cni/networks
+      name: host-local-net-dir
+    - mountPath: /host/opt/cni/bin
+      name: cni-bin-dir
+    flexvol_driver:
+    - name: flexvol-driver-host
+      mountPath: /host/driver
+    ## UNCOMMENT FOR TYPHA DEPLOYMENT SCALING:
+    # typha_autoscale_vert:
+    # - name: config
+    #   mountPath: /etc/config
+    # node_vertical_autoscaler:
+    # - name: config
+    #   mountPath: /etc/config
+    # typha_datastore:
+    # - mountPath: /etc/calico
+    #   name: etc-calico
+    #   readOnly: true
+
+config:
+  common:
+    crds:
+      enabled: true
+    datastore:
+      type: kubernetes
+    typha:
+      enabled: true
+      autoscaling:
+        horizontal:
+          enabled: false
+        verticle:
+          enabled: false
+  configmap:
+  node:
+    cni:
+      calico:
+        cni_network_config: |-
+          {"name":"k8s-pod-network","cniVersion":"0.3.1","plugins":[{"type":"calico","log_level":"info","datastore_type":"kubernetes","nodename":"__KUBERNETES_NODE_NAME__","mtu": __CNI_MTU__,"ipam":{"type":"calico-ipam"},"policy":{"type":"k8s"},"kubernetes":{"kubeconfig":"__KUBECONFIG_FILEPATH__"}},{"type":"portmap","snat":true,"capabilities":{"portMappings":true}}]}
+  install_cni:
+    calico_backend: "bird"
+    typha_service_name: "calico-typha"
+    veth_mtu: "1440"
+  calico:
+    cni_config: |-
+      {"name":"k8s-pod-network","cniVersion":"0.3.1","plugins":[{"type":"calico","log_level":"info","datastore_type":"kubernetes","nodename":"__KUBERNETES_NODE_NAME__","mtu": __CNI_MTU__,"ipam":{"type":"calico-ipam"},"policy":{"type":"k8s"},"kubernetes":{"kubeconfig":"__KUBECONFIG_FILEPATH__"}},{"type":"portmap","snat":true,"capabilities":{"portMappings":true}}]}
+  typha_autoscale_horz:
+    ladder: |-
+      {"coresToReplicas":[],"nodesToReplicas":[[1,1],[10,2],[100,3],[250,4],[500,5],[1000,6],[1500,7],[2000,8]]}
+  typha_autoscale_vert:
+    typha_autoscaler: |-
+      {"calico-typha":{"requests":{"cpu":{"base":"120m","step":"80m","nodesPerStep":10,"max":"1000m"}}}}
+
+services:
+  calico:
+    name: calico
+    advertise_address: 10.96.0.10
+
+networking:
+  podSubnet: 192.168.0.0/16
+
+security:
+  containers:
+    calico_node:
+      security_context:
+        enabled: true
+        privileged: true
+    install_cni:
+      security_context:
+        enabled: true
+        privileged: true
+    calico_typha:
+    # v1k0d3n - will come back to complete this in a separate PR
+
+  rbac:
+    kube_controllers_deploy:
+      - apigroups:
+          - ""
+        resources:
+          - nodes
+        verbs:
+          - watch
+          - list
+          - get
+      - apigroups:
+          - ""
+        resources:
+          - pods
+        verbs:
+          - get
+      - apigroups:
+          - "crd.projectcalico.org"
+        resources:
+          - ippools
+        verbs:
+          - list
+      - apigroups:
+          - "crd.projectcalico.org"
+        resources:
+          - blockaffinities
+          - ipamblocks
+          - ipamhandles
+        verbs:
+          - get
+          - list
+          - create
+          - update
+          - delete
+      - apigroups:
+          - "crd.projectcalico.org"
+        resources:
+          - clusterinformations
+        verbs:
+          - get
+          - create
+          - update
+    calico_node:
+      - apigroups:
+          - ""
+        resources:
+          - pods
+          - nodes
+          - namespaces
+        verbs:
+          - get
+      - apigroups:
+          - ""
+        resources:
+          - endpoints
+          - services
+        verbs:
+          - watch
+          - list
+          - get
+      - apigroups:
+          - ""
+        resources:
+          - nodes/status
+        verbs:
+          - patch
+          - update
+      - apigroups:
+          - "networking.k8s.io"
+        resources:
+          - networkpolicies
+        verbs:
+          - watch
+          - list
+      - apigroups:
+          - ""
+        resources:
+          - pods
+          - namespaces
+          - serviceaccounts
+        verbs:
+          - list
+          - watch
+      - apigroups:
+          - ""
+        resources:
+          - pods/status
+        verbs:
+          - patch
+      - apigroups:
+          - "crd.projectcalico.org"
+        resources:
+          - globalfelixconfigs
+          - felixconfigurations
+          - bgppeers
+          - globalbgpconfigs
+          - bgpconfigurations
+          - ippools
+          - ipamblocks
+          - globalnetworkpolicies
+          - globalnetworksets
+          - networkpolicies
+          - networksets
+          - clusterinformations
+          - hostendpoints
+          - blockaffinities
+        verbs:
+          - get
+          - list
+          - watch
+      - apigroups:
+          - "crd.projectcalico.org"
+        resources:
+          - ippools
+          - felixconfigurations
+          - clusterinformations
+        verbs:
+          - create
+          - update
+      - apigroups:
+          - ""
+        resources:
+          - nodes
+        verbs:
+          - get
+          - list
+          - watch
+      - apigroups:
+          - "crd.projectcalico.org"
+        resources:
+          - bgpconfigurations
+          - bgppeers
+        verbs:
+          - create
+          - update
+      - apigroups:
+          - "crd.projectcalico.org"
+        resources:
+          - blockaffinities
+          - ipamblocks
+          - ipamhandles
+        verbs:
+          - get
+          - list
+          - create
+          - update
+          - delete
+      - apigroups:
+          - "crd.projectcalico.org"
+        resources:
+          - ipamconfigs
+        verbs:
+          - get
+      - apigroups:
+          - "crd.projectcalico.org"
+        resources:
+          - blockaffinities
+        verbs:
+          - watch
+
+      - apigroups:
+          - "apps"
+        resources:
+          - daemonsets
+        verbs:
+          - get
+    typha_autoscale_vert:
+      - apigroups:
+          - ""
+        resources:
+          - "nodes"
+        verbs:
+          - "list"
+      - apigroups:
+          - "apps"
+          - "extensions"
+        resources:
+          - "deployments"
+        verbs:
+          - "patch"
+    calico_autoscale_vert:
+      - apigroups:
+          - ""
+        resources:
+          - "nodes"
+        verbs:
+          - "list"
+      - apigroups:
+          - "apps"
+          - "extensions"
+        resources:
+          - "deployments"
+          - "daemonsets"
+        verbs:
+          - "patch"
+    calico_node_calico:
+      - apigroups:
+          - ""
+        resources:
+          - namespaces
+          - serviceaccounts
+        verbs:
+          - get
+          - list
+          - watch
+      - apigroups:
+          - ""
+        resources:
+          - endpoints
+        verbs:
+          - get
+      - apigroups:
+          - ""
+        resources:
+          - services
+        verbs:
+          - get
+      - apigroups:
+          - ""
+        resources:
+          - pods/status
+        verbs:
+          - update
+      - apigroups:
+          - ""
+        resources:
+          - pods
+        verbs:
+          - get
+          - list
+          - watch
+          - patch
+      - apigroups:
+          - ""
+        resources:
+          - nodes
+        verbs:
+          - get
+          - list
+          - update
+          - watch
+      - apigroups:
+          - "extensions"
+        resources:
+          - networkpolicies
+        verbs:
+          - get
+          - list
+          - watch
+      - apigroups:
+          - "networking.k8s.io"
+        resources:
+          - networkpolicies
+        verbs:
+          - watch
+          - list
+      - apigroups:
+          - "crd.projectcalico.org"
+        resources:
+          - globalfelixconfigs
+          - felixconfigurations
+          - bgppeers
+          - globalbgpconfigs
+          - bgpconfigurations
+          - ippools
+          - globalnetworkpolicies
+          - globalnetworksets
+          - networkpolicies
+          - clusterinformations
+          - hostendpoints
+        verbs:
+          - create
+          - get
+          - list
+          - update
+          - watch
+    typha_autoscale_horz:
+      - apigroups:
+          - ""
+        resources:
+          - "nodes"
+        verbs:
+          - "list"
+    typha_autoscale_horz_ns:
+      - apigroups:
+          - ""
+        resources:
+          - "nodes"
+        verbs:
+          - "list"
+
+manifests:
+  kube_controllers_deploy: true
+  node_ds_calico: true
+  node_rbac_cr: true
+  node_rbac_crb: true
+  node_rbac_sa: true
+  typha_deploy: true
+  typha_deploy_pdb: true
+  ## UNCOMMENT FOR TYPHA DEPLOYMENT SCALING:
+  # typha_deploy_autoscale_horz: true
+  # typha_deploy_autoscale_vert: true
+  crd_bgp_peer: true
+  crd_bgp_config: true
+  crd_block_affinities: true
+  crd_cluster_information: true
+  crd_felix_config: true
+  crd_host_endpoint: true
+  crd_ipam_configs: true
+  crd_ipam_handles: true
+  crd_ip_pool: true
+  crd_ipam_blocks: true
+  crd_netset: true
+  crd_netset_global: true
+  crd_network_policy: true
+  crd_network_policy_global: true

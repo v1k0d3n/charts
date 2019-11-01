@@ -1,0 +1,78 @@
+{{/*
+Copyright 2019 Brandon B. Jozsa/JinkIT and its Authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/}}
+
+{{- if and .Values.config.common.typha.enabled (eq .Values.config.common.datastore.type "kubernetes") }}
+{{- $envAll := . }}
+
+---
+{{/* include "kubernetes-common.semver.apiversion-apps" . */}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calico-typha
+  namespace: {{ .Release.Namespace }}
+  labels:
+{{ tuple $envAll "calico" "typha_datastore" | include "kubernetes-common.snippets.kubernetes_metadata_labels" | indent 4 }}
+spec:
+{{ tuple $envAll "typha_datastore" | include "kubernetes-common.snippets.kubernetes_upgrades_deployment" | indent 2 }}
+  selector:
+    matchLabels:
+{{ tuple $envAll "calico" "typha_datastore" | include "kubernetes-common.snippets.kubernetes_metadata_labels" | indent 6 }}
+  replicas: {{ .Values.pod.replicas.typha_datastore }}
+  template:
+    metadata:
+      labels:
+{{ tuple $envAll "calico" "typha_datastore" | include "kubernetes-common.snippets.kubernetes_metadata_labels" | indent 8 }}
+      annotations:
+        scheduler.alpha.kubernetes.io/critical-pod: ''
+        cluster-autoscaler.kubernetes.io/safe-to-evict: 'true'
+    spec:
+      dnsPolicy: {{ .Values.pod.dns_policy }}
+      containers:
+      - name: calico-typha
+        image: {{ .Values.containers.typha_datastore.image }}
+        imagePullPolicy: {{ .Values.containers.typha_datastore.pull_policy }}
+        ports:
+        - containerPort: 5473
+          name: calico-typha
+          protocol: TCP
+        env:
+{{ include "kubernetes-common.utils.kubernetes_vars" .Values.vars.typha_datastore.calico_typha | indent 10 }}
+        livenessProbe:
+          httpGet:
+            path: /liveness
+            port: 9098
+            host: localhost
+          periodSeconds: 30
+          initialDelaySeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /readiness
+            port: 9098
+            host: localhost
+          periodSeconds: 10
+        securityContext:
+          runAsNonRoot: true
+          allowPrivilegeEscalation: false
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+      hostNetwork: true
+      tolerations:
+        - key: CriticalAddonsOnly
+          operator: Exists
+      serviceAccountName: calico-node
+      priorityClassName: {{ .Values.pod.priority.class.typha_datastore }}
+{{ end }}

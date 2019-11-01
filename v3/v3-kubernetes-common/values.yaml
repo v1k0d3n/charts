@@ -12,11 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: v1
-description: Kubernetes Self-Hosted Common Library
-name: kubernetes-common
-version: 0.1.0
-icon: https://avatars1.githubusercontent.com/u/13629408
-keywords:
-  - library
-  - kubernetes-common
+global:
+  region: cluster
+  tld: local
+
+endpoints:
+  fqdn: null

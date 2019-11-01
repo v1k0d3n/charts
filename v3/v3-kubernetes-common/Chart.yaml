@@ -1,4 +1,4 @@
-# Copyright Brandon B. Jozsa/JinkIT and it's Authors.
+# Copyright 2019 JinkIT and its authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,8 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-dependencies:
-  - name: kubernetes-common
-    version: 0.1.0
-    repository: file://../kubernetes-common
-    alias: v1k0d3n-charts
+apiVersion: v1
+description: Kubernetes Self-Hosted Common Library
+name: v3-kubernetes-common
+version: 0.1.0
+icon: https://avatars1.githubusercontent.com/u/13629408
+keywords:
+  - library
+  - kubernetes-common
+  - v3

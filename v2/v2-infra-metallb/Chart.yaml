@@ -1,4 +1,4 @@
-# Copyright 2019 Brandon B. Jozsa/JinkIT and its Authors.
+# Copyright Brandon B. Jozsa/JinkIT and it's Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,11 +13,11 @@
 # limitations under the License.
 
 apiVersion: v1
-description: Kubernetes Self-Hosted Chart - SDN Calico
-name: cni-calico
+appVersion: "1.0"
+description: A Helm chart for Kubernetes
+name: v2-infra-metallb
 version: 0.1.0
-icon: https://avatars1.githubusercontent.com/u/12304728
 keywords:
   - infrastructure
-  - cni
-  - calico
+  - bare-metal
+  - v2

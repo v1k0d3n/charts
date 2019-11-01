@@ -13,7 +13,7 @@
 # limitations under the License.
 
 dependencies:
-  - name: kubernetes-common
+  - name: v2-kubernetes-common
     version: 0.1.0
-    repository: file://../kubernetes-common
+    repository: file://../v2-kubernetes-common
     alias: v1k0d3n-charts

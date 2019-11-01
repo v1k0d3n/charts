@@ -1,4 +1,4 @@
-# Copyright Brandon B. Jozsa/JinkIT and it's Authors.
+# Copyright 2019 Brandon B. Jozsa/JinkIT and its Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,11 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: v1
-appVersion: "1.0"
-description: A Helm chart for Kubernetes
-name: infra-metallb
-version: 0.1.0
-keywords:
-  - infrastructure
-  - bare-metal
+dependencies:
+  - name: v2-kubernetes-common
+    version: 0.1.0
+    repository: file://../v2-kubernetes-common
+    alias: v1k0d3n-charts
