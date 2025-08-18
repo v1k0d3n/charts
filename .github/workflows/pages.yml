@@ -25,6 +25,16 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v4
+      - name: Verify charts directory
+        run: |
+          echo "Checking charts directory structure..."
+          if [ ! -d "charts" ]; then
+            echo "Creating empty charts directory"
+            mkdir -p charts
+            helm repo index charts --url https://v1k0d3n.github.io/charts
+          fi
+          ls -la charts/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

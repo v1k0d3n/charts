@@ -45,6 +45,19 @@ jobs:
     - name: Update repository index
       run: make index
 
+    - name: Verify charts directory
+      run: |
+        echo "Checking charts directory structure..."
+        ls -la charts/ || echo "Charts directory is empty or doesn't exist"
+        if [ -f "charts/index.yaml" ]; then
+          echo "Repository index found"
+          cat charts/index.yaml
+        else
+          echo "No repository index found - creating empty one"
+          mkdir -p charts
+          helm repo index charts --url https://v1k0d3n.github.io/charts
+        fi
+
     - name: Setup Pages
       uses: actions/configure-pages@v4
 
