@@ -1,4 +1,4 @@
 # kubevirt-redfish chart source configuration
 repo_url: https://github.com/v1k0d3n/kubevirt-redfish
 chart_path: helm
-ref: v0.2.1
+ref: 08ff5a7c3b4d6b0dff5fe485af97b9da030dab5d
