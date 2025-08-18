@@ -69,7 +69,8 @@ fetch-chart: ## Fetch chart from source repository
 	elif [ -n "$$ref" ]; then \
 		echo "Fetching from git ref $$ref"; \
 		rm -rf $(TEMP_DIR)/$(CHART)-src; \
-		git clone --depth 1 --branch $$ref $$repo_url $(TEMP_DIR)/$(CHART)-src; \
+		git clone --depth 1 $$repo_url $(TEMP_DIR)/$(CHART)-src; \
+		cd $(TEMP_DIR)/$(CHART)-src && git checkout $$ref; \
 		cp -r $(TEMP_DIR)/$(CHART)-src/$$chart_path $(TEMP_DIR)/$(CHART); \
 	else \
 		echo "Fetching latest version"; \
