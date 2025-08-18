@@ -3,9 +3,9 @@ entries:
   kubevirt-redfish:
   - apiVersion: v2
     appVersion: v0.2.0
-    created: "2025-08-18T15:22:57.402811282Z"
+    created: "2025-08-18T15:33:45.583731418Z"
     description: A Helm chart that provides a Redfish API server for KubeVirt VMs
-    digest: 2ac39e1b9cb7e8876d2ed59d0e172b25315882c6da739c909b480324bffb4094
+    digest: 07c66a4105ae0ce29e9bc29a353c934134bc27b7e2de237a84b01fb52f5658ff
     home: https://github.com/kubevirt/kubevirt-redfish
     icon: https://raw.githubusercontent.com/kubevirt/kubevirt/main/logo/kubevirt-logo.png
     keywords:
@@ -23,4 +23,4 @@ entries:
     urls:
     - https://v1k0d3n.github.io/charts/kubevirt-redfish/kubevirt-redfish-0.0.0-0.2.0-f310b659.tgz
     version: 0.0.0-0.2.0-f310b659
-generated: "2025-08-18T15:22:57.401661193Z"
+generated: "2025-08-18T15:33:45.582564334Z"
