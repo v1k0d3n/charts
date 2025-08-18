@@ -71,6 +71,23 @@ fetch-chart: ## Fetch chart from source repository
 		rm -rf $(TEMP_DIR)/$(CHART)-src; \
 		git clone --depth 1 $$repo_url $(TEMP_DIR)/$(CHART)-src; \
 		cd $(TEMP_DIR)/$(CHART)-src && git checkout $$ref; \
+		echo "Debug: Current directory: $$(pwd)"; \
+		echo "Debug: Git status:"; \
+		git status; \
+		echo "Debug: Git branch:"; \
+		git branch -a; \
+		echo "Debug: Contents of cloned repository:"; \
+		ls -la; \
+		echo "Debug: Looking for chart_path: $$chart_path"; \
+		if [ -d "$$chart_path" ]; then \
+			echo "Debug: Chart path found!"; \
+			ls -la "$$chart_path"; \
+		else \
+			echo "Debug: Chart path not found. Available directories:"; \
+			ls -la; \
+			echo "Debug: Trying to find helm directory:"; \
+			find . -name "helm" -type d 2>/dev/null || echo "No helm directory found"; \
+		fi; \
 		cp -r $(TEMP_DIR)/$(CHART)-src/$$chart_path $(TEMP_DIR)/$(CHART); \
 	else \
 		echo "Fetching latest version"; \
