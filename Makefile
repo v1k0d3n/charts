@@ -89,9 +89,8 @@ fetch-chart: ## Fetch chart from source repository
 			find . -name "helm" -type d 2>/dev/null || echo "No helm directory found"; \
 		fi; \
 		cd $(TEMP_DIR)/..; \
-		mkdir -p $(TEMP_DIR)/$(CHART); \
 		echo "Debug: Copying from $(TEMP_DIR)/$(CHART)-src/$$chart_path to $(TEMP_DIR)/$(CHART)"; \
-		cp -r $(TEMP_DIR)/$(CHART)-src/$$chart_path/* $(TEMP_DIR)/$(CHART)/; \
+		cp -r $(TEMP_DIR)/$(CHART)-src/$$chart_path $(TEMP_DIR)/$(CHART); \
 		echo "Debug: Contents of destination directory:"; \
 		ls -la $(TEMP_DIR)/$(CHART)/; \
 	else \
