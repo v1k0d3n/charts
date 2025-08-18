@@ -88,7 +88,7 @@ fetch-chart: ## Fetch chart from source repository
 			echo "Debug: Trying to find helm directory:"; \
 			find . -name "helm" -type d 2>/dev/null || echo "No helm directory found"; \
 		fi; \
-		cp -r $(TEMP_DIR)/$(CHART)-src/$$chart_path $(TEMP_DIR)/$(CHART); \
+		cp -r $$chart_path $(TEMP_DIR)/$(CHART); \
 	else \
 		echo "Fetching latest version"; \
 		helm pull $$repo_url/$(CHART) --untar --untardir $(TEMP_DIR); \
