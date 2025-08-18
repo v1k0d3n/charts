@@ -1,0 +1,66 @@
+name: Update Specific Chart
+
+on:
+  workflow_dispatch:
+    inputs:
+      chart:
+        description: 'Chart name to update'
+        required: true
+        type: string
+      version:
+        description: 'Version to update to (optional)'
+        required: false
+        type: string
+
+jobs:
+  update-chart:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Helm
+      uses: azure/setup-helm@v3
+      with:
+        version: v3.12.0
+
+    - name: Initialize repository
+      run: make init
+
+    - name: Update specific chart
+      run: |
+        if [ -n "${{ github.event.inputs.version }}" ]; then
+          # Update the version in the source config
+          sed -i "s/^version: .*/version: ${{ github.event.inputs.version }}/" sources/${{ github.event.inputs.chart }}.yaml
+        fi
+        make update-chart CHART=${{ github.event.inputs.chart }}
+
+    - name: Update repository index
+      run: make index
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: './charts'
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+
+    - name: Commit changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add charts/ sources/
+        git diff --quiet && git diff --staged --quiet || git commit -m "Update ${{ github.event.inputs.chart }} chart [skip ci]"
+        git push
