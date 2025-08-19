@@ -3,9 +3,9 @@ entries:
   kubevirt-redfish:
   - apiVersion: v2
     appVersion: v0.2.1
-    created: "2025-08-18T22:03:41.485099189Z"
+    created: "2025-08-19T00:39:40.357032525Z"
     description: A Helm chart that provides a Redfish API server for KubeVirt VMs
-    digest: e6f2b3b264b78ed67be2e834ceaf344c2cefff1b3dced7ada9e25288f2a927df
+    digest: 05a5bd495f1f50c537110045810da196f20874f6c1fc85f771818ecf290a735d
     home: https://github.com/kubevirt/kubevirt-redfish
     icon: https://raw.githubusercontent.com/kubevirt/kubevirt/main/logo/kubevirt-logo.png
     keywords:
@@ -25,7 +25,7 @@ entries:
     version: 0.2.1-73abb30
   - apiVersion: v2
     appVersion: v0.2.0
-    created: "2025-08-18T22:03:41.484157623Z"
+    created: "2025-08-19T00:39:40.356146051Z"
     description: A Helm chart that provides a Redfish API server for KubeVirt VMs
     digest: 0e736215a0a05dafd5702e6093400c2d0050174d69477d5b664d048ee79de925
     home: https://github.com/kubevirt/kubevirt-redfish
@@ -48,13 +48,13 @@ entries:
   ocp-on-cnv:
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2025-08-18T22:03:41.485492216Z"
+    created: "2025-08-19T00:39:40.357428899Z"
     description: This helm chart can be used to deploy OpenShift on top of OpenShift
       Virtualization using OpenShift's BMO and Fakefish.
-    digest: 19fa6a919e329dadff99b0bbd6ec46b1216cd54a1d538cfc41ad04a165f24da9
+    digest: c060a495f8b794366de4a74c046052d7b4aef2df30a14ecee80c4eea6f2eb400
     name: ocp-on-cnv
     type: application
     urls:
     - https://v1k0d3n.github.io/charts/ocp-on-cnv/ocp-on-cnv-0.1.0.tgz
     version: 0.1.0
-generated: "2025-08-18T22:03:41.483017293Z"
+generated: "2025-08-19T00:39:40.355025398Z"
