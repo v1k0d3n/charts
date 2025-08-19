@@ -5,7 +5,7 @@ This document explains how to contribute to and maintain the Helm charts reposit
 ## Repository Structure
 
 ```
-charts/                    # Generated chart packages (DO NOT EDIT)
+charts/                   # Generated chart packages (DO NOT EDIT)
 ├── index.yaml            # Auto-generated repository index
 └── chart-name/           # Chart packages
 sources/                  # Chart source configurations (EDIT THESE)
@@ -13,10 +13,10 @@ sources/                  # Chart source configurations (EDIT THESE)
 .github/workflows/        # GitHub Actions workflows
 ├── publish.yml           # Automatic chart publishing
 ├── update-chart.yml      # Manual chart updates
-└── pages.yml            # GitHub Pages deployment
+└── pages.yml             # GitHub Pages deployment
 scripts/                  # Helper scripts
-├── add-git-chart.sh     # Add charts from git repositories
-└── demo.sh              # Demonstration workflow
+├── add-git-chart.sh      # Add charts from git repositories
+└── demo.sh               # Demonstration workflow
 Makefile                  # Build and management commands
 ```
 
