@@ -182,9 +182,9 @@ apply-overrides: ## Apply values and chart metadata overrides
 				head -20 "$(TEMP_DIR)/$(CHART)/values.yaml"; \
 				echo "Debug: Override content:"; \
 				yq eval '.values_overrides' "$(SOURCES_DIR)/$(CHART).yaml"; \
-				yq eval 'select(fileIndex == 1) * select(fileIndex == 0).values_overrides' \
-					"$(TEMP_DIR)/$(CHART)/values.yaml" \
-					"$(SOURCES_DIR)/$(CHART).yaml" > "$(TEMP_DIR)/$(CHART)/values.yaml.tmp" && \
+				yq eval-all 'select(fileIndex == 1) * select(fileIndex == 0).values_overrides' \
+					"$(SOURCES_DIR)/$(CHART).yaml" \
+					"$(TEMP_DIR)/$(CHART)/values.yaml" > "$(TEMP_DIR)/$(CHART)/values.yaml.tmp" && \
 				mv "$(TEMP_DIR)/$(CHART)/values.yaml.tmp" "$(TEMP_DIR)/$(CHART)/values.yaml"; \
 				echo "Debug: Modified values.yaml content:"; \
 				head -20 "$(TEMP_DIR)/$(CHART)/values.yaml"; \
@@ -201,9 +201,9 @@ apply-overrides: ## Apply values and chart metadata overrides
 				head -10 "$(TEMP_DIR)/$(CHART)/Chart.yaml"; \
 				echo "Debug: Override content:"; \
 				yq eval '.chart_overrides' "$(SOURCES_DIR)/$(CHART).yaml"; \
-				yq eval 'select(fileIndex == 1) * select(fileIndex == 0).chart_overrides' \
-					"$(TEMP_DIR)/$(CHART)/Chart.yaml" \
-					"$(SOURCES_DIR)/$(CHART).yaml" > "$(TEMP_DIR)/$(CHART)/Chart.yaml.tmp" && \
+				yq eval-all 'select(fileIndex == 1) * select(fileIndex == 0).chart_overrides' \
+					"$(SOURCES_DIR)/$(CHART).yaml" \
+					"$(TEMP_DIR)/$(CHART)/Chart.yaml" > "$(TEMP_DIR)/$(CHART)/Chart.yaml.tmp" && \
 				mv "$(TEMP_DIR)/$(CHART)/Chart.yaml.tmp" "$(TEMP_DIR)/$(CHART)/Chart.yaml"; \
 				echo "Debug: Modified Chart.yaml content:"; \
 				head -10 "$(TEMP_DIR)/$(CHART)/Chart.yaml"; \
