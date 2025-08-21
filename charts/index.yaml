@@ -3,7 +3,7 @@ entries:
   kubevirt-redfish:
   - apiVersion: v2
     appVersion: v0.2.1
-    created: "2025-08-21T13:06:42.031823685Z"
+    created: "2025-08-21T13:13:07.236235526Z"
     description: A Helm chart that provides a Redfish API server for KubeVirt VMs
     digest: a243ba0c35b589e0a20e2919b2dab65cf139fe84914de110d6e90817200342bf
     home: https://github.com/kubevirt/kubevirt-redfish
@@ -25,7 +25,7 @@ entries:
     version: 0.2.1-73abb30
   - apiVersion: v2
     appVersion: v0.2.0
-    created: "2025-08-21T13:06:42.030932762Z"
+    created: "2025-08-21T13:13:07.23529559Z"
     description: A Helm chart that provides a Redfish API server for KubeVirt VMs
     digest: 0e736215a0a05dafd5702e6093400c2d0050174d69477d5b664d048ee79de925
     home: https://github.com/kubevirt/kubevirt-redfish
@@ -48,10 +48,10 @@ entries:
   ocp-on-cnv:
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2025-08-21T13:06:42.032218035Z"
+    created: "2025-08-21T13:13:07.236635167Z"
     description: This helm chart can be used to deploy OpenShift on top of OpenShift
       Virtualization using OpenShift's BMO and Fakefish.
-    digest: 91704a51e8b71a94d72eb891f71d89bc70e0fb5924f844962596fbe59947a4b9
+    digest: a33b4388058241d2ea2a0c06e6a5adb315abdcc6d2a92eb632586c7080717f1c
     name: ocp-on-cnv
     type: application
     urls:
@@ -60,9 +60,9 @@ entries:
   vms-on-ocpv:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-08-21T13:06:42.032525833Z"
+    created: "2025-08-21T13:13:07.236965067Z"
     description: A Helm chart that deploys Virtual Machines on OpenShift Virtualization
-    digest: 8552bed2f0d96b6c37038fe4e39d4393182cf53fb8ce122e2f8bd371d416cc4f
+    digest: 4ee1bd11ae14da5171647aad0dba672caaae739441ad8d3825e600aedb8f029b
     home: https://github.com/v1k0d3n/vms-on-ocpv
     keywords:
     - kubevirt
@@ -79,4 +79,4 @@ entries:
     urls:
     - https://v1k0d3n.github.io/charts/vms-on-ocpv/vms-on-ocpv-0.1.0.tgz
     version: 0.1.0
-generated: "2025-08-21T13:06:42.029802058Z"
+generated: "2025-08-21T13:13:07.234045552Z"
