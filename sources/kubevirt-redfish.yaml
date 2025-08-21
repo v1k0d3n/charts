@@ -1,3 +1,17 @@
-repo_url: github.com/v1k0d3n/kubevirt-redfish
+# kubevirt-redfish chart source configuration
+repo_url: https://github.com/v1k0d3n/kubevirt-redfish
 chart_path: helm
-ref: fee285c15758efa030b8b22a965d2c5940c43236
+ref: main
+
+# Values overrides - these will be merged with the original values.yaml
+values_overrides:
+  global:
+    image:
+      repository: quay.io/v1k0d3n/kubevirt-redfish
+      tag: fee285c1
+
+# Chart metadata overrides - these will override Chart.yaml fields
+chart_overrides:
+  version: 0.2.1-fee285c1
+  appVersion: v0.2.1-fee285c1
+  description: "Custom kubevirt-redfish chart with enhanced features"

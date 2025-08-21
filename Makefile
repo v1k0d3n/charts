@@ -50,6 +50,7 @@ update-chart: ## Update a specific chart (use CHART=chartname)
 		exit 1; \
 	fi
 	@$(MAKE) fetch-chart CHART=$(CHART)
+	@$(MAKE) apply-overrides CHART=$(CHART)
 	@$(MAKE) package-chart CHART=$(CHART)
 	@echo "Chart $(CHART) updated successfully"
 
@@ -167,3 +168,38 @@ add-chart: ## Add a new chart source (use CHART=name REPO=url PATH=path VERSION=
 	@if [ -n "$(VERSION)" ]; then echo "version: $(VERSION)" >> $(SOURCES_DIR)/$(CHART).yaml; fi
 	@if [ -n "$(REF)" ]; then echo "ref: $(REF)" >> $(SOURCES_DIR)/$(CHART).yaml; fi
 	@echo "Chart source configuration created: $(SOURCES_DIR)/$(CHART).yaml"
+
+# Apply chart overrides
+.PHONY: apply-overrides
+apply-overrides: ## Apply values and chart metadata overrides
+	@echo "Applying overrides for chart $(CHART)..."
+	@if [ -f "$(SOURCES_DIR)/$(CHART).yaml" ]; then \
+		# Apply values overrides if specified \
+		if grep -q "values_overrides:" "$(SOURCES_DIR)/$(CHART).yaml"; then \
+			echo "Applying values overrides..."; \
+			if [ -f "$(TEMP_DIR)/$(CHART)/values.yaml" ]; then \
+				yq eval-all 'select(fileIndex == 0).values_overrides * select(fileIndex == 1)' \
+					"$(SOURCES_DIR)/$(CHART).yaml" \
+					"$(TEMP_DIR)/$(CHART)/values.yaml" > "$(TEMP_DIR)/$(CHART)/values.yaml.tmp" && \
+				mv "$(TEMP_DIR)/$(CHART)/values.yaml.tmp" "$(TEMP_DIR)/$(CHART)/values.yaml"; \
+				echo "Values overrides applied successfully"; \
+			else \
+				echo "Warning: values.yaml not found, skipping values overrides"; \
+			fi; \
+		fi; \
+		# Apply chart metadata overrides if specified \
+		if grep -q "chart_overrides:" "$(SOURCES_DIR)/$(CHART).yaml"; then \
+			echo "Applying chart metadata overrides..."; \
+			if [ -f "$(TEMP_DIR)/$(CHART)/Chart.yaml" ]; then \
+				yq eval-all 'select(fileIndex == 0).chart_overrides * select(fileIndex == 1)' \
+					"$(SOURCES_DIR)/$(CHART).yaml" \
+					"$(TEMP_DIR)/$(CHART)/Chart.yaml" > "$(TEMP_DIR)/$(CHART)/Chart.yaml.tmp" && \
+				mv "$(TEMP_DIR)/$(CHART)/Chart.yaml.tmp" "$(TEMP_DIR)/$(CHART)/Chart.yaml"; \
+				echo "Chart metadata overrides applied successfully"; \
+			else \
+				echo "Warning: Chart.yaml not found, skipping chart metadata overrides"; \
+			fi; \
+		fi; \
+	else \
+		echo "Warning: Source configuration not found for $(CHART)"; \
+	fi

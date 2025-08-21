@@ -35,6 +35,38 @@ Makefile                  # Build and management commands
 - Any `.tgz` files - Chart packages
 - `charts/index.yaml` - Auto-generated index
 
+## Chart Overrides
+
+The repository supports overriding chart values and metadata during the build process. This allows you to:
+
+### Values Overrides
+- **Customize default values**: Override image repositories, tags, and other configuration
+- **Brand charts**: Point to your own container registries
+- **Set defaults**: Provide sensible defaults for your environment
+
+### Chart Metadata Overrides
+- **Version control**: Maintain your own semantic versioning
+- **Quality control**: Fix issues in upstream charts
+- **Consistency**: Ensure all charts follow your standards
+
+### Example Override Configuration
+```yaml
+# Values overrides - merged with original values.yaml
+values_overrides:
+  global:
+    image:
+      repository: quay.io/my-org/my-chart
+      tag: v1.0.0-custom
+  service:
+    type: LoadBalancer
+
+# Chart metadata overrides - override Chart.yaml fields
+chart_overrides:
+  version: 1.0.0
+  appVersion: v1.0.0-custom
+  description: "Custom chart with enhanced features"
+```
+
 ## Adding New Charts
 
 ### Option 1: From Git Repository
@@ -52,6 +84,19 @@ Example `sources/my-chart.yaml`:
 repo_url: https://github.com/user/repo
 chart_path: helm/
 ref: v1.0.0
+
+# Values overrides - these will be merged with the original values.yaml
+values_overrides:
+  global:
+    image:
+      repository: quay.io/my-org/my-chart
+      tag: v1.0.0-custom
+
+# Chart metadata overrides - these will override Chart.yaml fields
+chart_overrides:
+  version: 1.0.0
+  appVersion: v1.0.0-custom
+  description: "Custom my-chart with enhanced features"
 ```
 
 ### Option 2: From Helm Repository
