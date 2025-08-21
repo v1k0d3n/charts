@@ -3,9 +3,9 @@ entries:
   kubevirt-redfish:
   - apiVersion: v2
     appVersion: v0.2.1
-    created: "2025-08-20T14:31:26.582947116Z"
+    created: "2025-08-21T13:02:19.160415571Z"
     description: A Helm chart that provides a Redfish API server for KubeVirt VMs
-    digest: e6fca9ec4fcf003b1d36af1547ffc7bb7b78431bb114b3f79f1159665286071c
+    digest: 6013b2e2261c51f07b4d4284b3d40f5e16d6a242529931d567dafe5b57ff33ac
     home: https://github.com/kubevirt/kubevirt-redfish
     icon: https://raw.githubusercontent.com/kubevirt/kubevirt/main/logo/kubevirt-logo.png
     keywords:
@@ -25,7 +25,7 @@ entries:
     version: 0.2.1-73abb30
   - apiVersion: v2
     appVersion: v0.2.0
-    created: "2025-08-20T14:31:26.58201605Z"
+    created: "2025-08-21T13:02:19.159417933Z"
     description: A Helm chart that provides a Redfish API server for KubeVirt VMs
     digest: 0e736215a0a05dafd5702e6093400c2d0050174d69477d5b664d048ee79de925
     home: https://github.com/kubevirt/kubevirt-redfish
@@ -48,10 +48,10 @@ entries:
   ocp-on-cnv:
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2025-08-20T14:31:26.583360611Z"
+    created: "2025-08-21T13:02:19.160817268Z"
     description: This helm chart can be used to deploy OpenShift on top of OpenShift
       Virtualization using OpenShift's BMO and Fakefish.
-    digest: 505624da971047fad299558b4f560eab40c9cab3784c72686259012f3e86adcd
+    digest: 7c1aebc9d6058f576b2c283c72d26577d05f560acdf39e9027a25734d7e4e14b
     name: ocp-on-cnv
     type: application
     urls:
@@ -60,9 +60,9 @@ entries:
   vms-on-ocpv:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-08-20T14:31:26.583692994Z"
+    created: "2025-08-21T13:02:19.161171534Z"
     description: A Helm chart that deploys Virtual Machines on OpenShift Virtualization
-    digest: 8b6f7c6e7ee51d9477a5128e720a6344deb60602e502ae2aef776a5b24d1a2f8
+    digest: 047f63c5033ae2682b2a46b8ddc80455724f629d787639640fa681489a70d31d
     home: https://github.com/v1k0d3n/vms-on-ocpv
     keywords:
     - kubevirt
@@ -79,4 +79,4 @@ entries:
     urls:
     - https://v1k0d3n.github.io/charts/vms-on-ocpv/vms-on-ocpv-0.1.0.tgz
     version: 0.1.0
-generated: "2025-08-20T14:31:26.58083175Z"
+generated: "2025-08-21T13:02:19.157221511Z"
