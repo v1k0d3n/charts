@@ -7,7 +7,7 @@ ref: main
 values_overrides:
   global:
     image:
-      repository: quay.io/v1k0d3n/kubevirt-redfish
+      repository: quay.io/bjozsa-redhat/kubevirt-redfish
       tag: fee285c1
 
 # Chart metadata overrides - these will override Chart.yaml fields
