@@ -3,9 +3,9 @@ entries:
   kubevirt-redfish:
   - apiVersion: v2
     appVersion: v0.2.1-fee285c1
-    created: "2025-08-22T01:21:33.777997488Z"
+    created: "2025-08-24T02:38:57.891161126Z"
     description: Custom kubevirt-redfish chart with enhanced features
-    digest: c56a5a9dea3db8aafc2765869d7ba881db5ebcc1e5af6621bdeafb61f8598f70
+    digest: 1fa72f48e13575ed80c5c13f1f4f1f2ff71721d1594a76427ddf83ec9a9fe6ee
     home: https://github.com/kubevirt/kubevirt-redfish
     icon: https://raw.githubusercontent.com/kubevirt/kubevirt/main/logo/kubevirt-logo.png
     keywords:
@@ -25,7 +25,7 @@ entries:
     version: 0.2.1-fee285c1
   - apiVersion: v2
     appVersion: v0.2.1
-    created: "2025-08-22T01:21:33.777084736Z"
+    created: "2025-08-24T02:38:57.89030336Z"
     description: A Helm chart that provides a Redfish API server for KubeVirt VMs
     digest: a243ba0c35b589e0a20e2919b2dab65cf139fe84914de110d6e90817200342bf
     home: https://github.com/kubevirt/kubevirt-redfish
@@ -47,7 +47,7 @@ entries:
     version: 0.2.1-73abb30
   - apiVersion: v2
     appVersion: v0.2.0
-    created: "2025-08-22T01:21:33.776178716Z"
+    created: "2025-08-24T02:38:57.889398006Z"
     description: A Helm chart that provides a Redfish API server for KubeVirt VMs
     digest: 0e736215a0a05dafd5702e6093400c2d0050174d69477d5b664d048ee79de925
     home: https://github.com/kubevirt/kubevirt-redfish
@@ -70,10 +70,10 @@ entries:
   ocp-on-cnv:
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2025-08-22T01:21:33.77838468Z"
+    created: "2025-08-24T02:38:57.891538993Z"
     description: This helm chart can be used to deploy OpenShift on top of OpenShift
       Virtualization using OpenShift's BMO and Fakefish.
-    digest: 983ca7b00a2f00b7c169f9252de72b69894dab3055357b314f26c79ddc78cea1
+    digest: f792183121caad8caf3a4ed75ec6e6095786eeb1c96f3b21a4b02b664d10f120
     name: ocp-on-cnv
     type: application
     urls:
@@ -82,9 +82,9 @@ entries:
   vms-on-ocpv:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2025-08-22T01:21:33.778684018Z"
+    created: "2025-08-24T02:38:57.89182601Z"
     description: A Helm chart that deploys Virtual Machines on OpenShift Virtualization
-    digest: 94e4b7661372e30bc97daf67f3361ef4cb1d53c7cda39d8486e063319b57b84d
+    digest: 8d4c33e752ef81f50563bd840cdf8cc1f028f7929539f56f1f8df4bdecf8d9f6
     home: https://github.com/v1k0d3n/vms-on-ocpv
     keywords:
     - kubevirt
@@ -101,4 +101,4 @@ entries:
     urls:
     - https://v1k0d3n.github.io/charts/vms-on-ocpv/vms-on-ocpv-0.1.0.tgz
     version: 0.1.0
-generated: "2025-08-22T01:21:33.774977015Z"
+generated: "2025-08-24T02:38:57.888291354Z"
