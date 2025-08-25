@@ -4,6 +4,6 @@ ref: main
 
 # Chart metadata overrides - these will override Chart.yaml fields
 chart_overrides:
-  version: 0.1.0
-  appVersion: v0.1.0-ff18cb3
+  version: 0.1.1
+  appVersion: v0.1.1-ff18cb3
   description: "Simple OpenShift Virtualization chart, typically used for kubevirt-redfish testing"
