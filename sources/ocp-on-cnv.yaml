@@ -1,3 +1,9 @@
 repo_url: https://github.com/v1k0d3n/ocp-on-cnv
 chart_path: ocp-on-cnv
 ref: main
+
+# Chart metadata overrides - these will override Chart.yaml fields
+chart_overrides:
+  version: 0.1.0-devel
+  appVersion: v0.1.0-ac971ff
+  description: "Deprecated: VMs w/Fakefish for ZTP testing"
