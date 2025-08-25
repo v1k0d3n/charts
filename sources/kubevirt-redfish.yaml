@@ -8,10 +8,10 @@ values_overrides:
   global:
     image:
       repository: quay.io/bjozsa-redhat/kubevirt-redfish
-      tag: fee285c1
+      tag: v0.2.2
 
 # Chart metadata overrides - these will override Chart.yaml fields
 chart_overrides:
-  version: 0.2.1-fee285c1
-  appVersion: v0.2.1-fee285c1
+  version: 0.2.2
+  appVersion: v0.2.2-fee285c
   description: "Custom kubevirt-redfish chart with enhanced features"
