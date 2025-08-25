@@ -4,6 +4,6 @@ ref: main
 
 # Chart metadata overrides - these will override Chart.yaml fields
 chart_overrides:
-  version: 0.1.0-devel
-  appVersion: v0.1.0-ac971ff
+  version: 0.1.1
+  appVersion: v0.1.1-ac971ff
   description: "Deprecated: VMs w/Fakefish for ZTP testing"
