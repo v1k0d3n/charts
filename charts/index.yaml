@@ -3,9 +3,9 @@ entries:
   kubevirt-redfish:
   - apiVersion: v2
     appVersion: v0.2.2-fee285c
-    created: "2025-08-31T02:34:55.000845662Z"
+    created: "2025-09-07T02:33:50.194164203Z"
     description: Custom kubevirt-redfish chart with enhanced features
-    digest: 3f6f0254ec71982c11415cd63ca870c923e3262ded1c3418f3d4da55a189c6f8
+    digest: 69398d6046f438b02f98177186aa46d9c551ac7216f86ea7db0fdc5028d18909
     home: https://github.com/kubevirt/kubevirt-redfish
     icon: https://raw.githubusercontent.com/kubevirt/kubevirt/main/logo/kubevirt-logo.png
     keywords:
@@ -25,7 +25,7 @@ entries:
     version: 0.2.2
   - apiVersion: v2
     appVersion: v0.2.1-fee285c1
-    created: "2025-08-31T02:34:54.999753023Z"
+    created: "2025-09-07T02:33:50.192636745Z"
     description: Custom kubevirt-redfish chart with enhanced features
     digest: 1fa72f48e13575ed80c5c13f1f4f1f2ff71721d1594a76427ddf83ec9a9fe6ee
     home: https://github.com/kubevirt/kubevirt-redfish
@@ -47,7 +47,7 @@ entries:
     version: 0.2.1-fee285c1
   - apiVersion: v2
     appVersion: v0.2.1
-    created: "2025-08-31T02:34:54.998263768Z"
+    created: "2025-09-07T02:33:50.190703633Z"
     description: A Helm chart that provides a Redfish API server for KubeVirt VMs
     digest: a243ba0c35b589e0a20e2919b2dab65cf139fe84914de110d6e90817200342bf
     home: https://github.com/kubevirt/kubevirt-redfish
@@ -69,7 +69,7 @@ entries:
     version: 0.2.1-73abb30
   - apiVersion: v2
     appVersion: v0.2.0
-    created: "2025-08-31T02:34:54.99737346Z"
+    created: "2025-09-07T02:33:50.189501646Z"
     description: A Helm chart that provides a Redfish API server for KubeVirt VMs
     digest: 0e736215a0a05dafd5702e6093400c2d0050174d69477d5b664d048ee79de925
     home: https://github.com/kubevirt/kubevirt-redfish
@@ -92,9 +92,9 @@ entries:
   ocp-on-cnv:
   - apiVersion: v2
     appVersion: v0.1.1-ac971ff
-    created: "2025-08-31T02:34:55.001974318Z"
+    created: "2025-09-07T02:33:50.196275516Z"
     description: 'Deprecated: VMs w/Fakefish for ZTP testing'
-    digest: 1a6b2dd59c78ad3249ed8e8d5071125529e15181390caf42c61a35a8ef7cb97a
+    digest: b8542a822d117a32d2a73491c21486802b72b22c8317047adebf7f9da264d460
     name: ocp-on-cnv
     type: application
     urls:
@@ -102,7 +102,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2025-08-31T02:34:55.001591427Z"
+    created: "2025-09-07T02:33:50.195690258Z"
     description: This helm chart can be used to deploy OpenShift on top of OpenShift
       Virtualization using OpenShift's BMO and Fakefish.
     digest: aef476a611be690d3e86a45532ace9bd57fca4981cc0ee20df300efcfb5d65e8
@@ -113,7 +113,7 @@ entries:
     version: 0.1.0
   - apiVersion: v2
     appVersion: v0.1.0-ac971ff
-    created: "2025-08-31T02:34:55.00122666Z"
+    created: "2025-09-07T02:33:50.194881413Z"
     description: 'Deprecated: VMs w/Fakefish for ZTP testing'
     digest: 7943b24d547a92c0209cda5293ed98a3d9aaadb26dc569003a01feba65527a45
     name: ocp-on-cnv
@@ -124,10 +124,10 @@ entries:
   vms-on-ocpv:
   - apiVersion: v2
     appVersion: v0.1.1-ff18cb3
-    created: "2025-08-31T02:34:55.00254829Z"
+    created: "2025-09-07T02:33:50.19752879Z"
     description: Simple OpenShift Virtualization chart, typically used for kubevirt-redfish
       testing
-    digest: 86d254ceaabb1eb39eb1c83d0b1d37730968119eff56c1b14593d760d3baa7dd
+    digest: a44904ca1a95b9405a83d1450d28288c35babaddbd6eca6105de356ff5af6667
     home: https://github.com/v1k0d3n/vms-on-ocpv
     keywords:
     - kubevirt
@@ -146,7 +146,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: v0.1.0-ff18cb3
-    created: "2025-08-31T02:34:55.002271769Z"
+    created: "2025-09-07T02:33:50.196863169Z"
     description: Simple OpenShift Virtualization chart, typically used for kubevirt-redfish
       testing
     digest: ffa58bbbb5c0bed7cc7d92337035c1f0bdeb6d5d8a9e3cdfa9207edd44609bf2
@@ -166,4 +166,4 @@ entries:
     urls:
     - https://v1k0d3n.github.io/charts/vms-on-ocpv/vms-on-ocpv-0.1.0.tgz
     version: 0.1.0
-generated: "2025-08-31T02:34:54.996239223Z"
+generated: "2025-09-07T02:33:50.187002943Z"
