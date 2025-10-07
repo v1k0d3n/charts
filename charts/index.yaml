@@ -2,8 +2,30 @@ apiVersion: v1
 entries:
   kubevirt-redfish:
   - apiVersion: v2
+    appVersion: v0.2.3-f87ff92
+    created: "2025-10-07T03:41:08.601255249Z"
+    description: Custom kubevirt-redfish chart with enhanced features
+    digest: f5bb20c53cbcee204544ea798f3187b5bc9d43ee1e2ecb78bdd83e349af53f69
+    home: https://github.com/kubevirt/kubevirt-redfish
+    icon: https://raw.githubusercontent.com/kubevirt/kubevirt/main/logo/kubevirt-logo.png
+    keywords:
+    - kubevirt
+    - redfish
+    - virtualization
+    - api
+    maintainers:
+    - email: bjozsa@redhat.com
+      name: Brandon B. Jozsa
+    name: kubevirt-redfish
+    sources:
+    - https://github.com/kubevirt/kubevirt-redfish
+    type: application
+    urls:
+    - https://v1k0d3n.github.io/charts/kubevirt-redfish/kubevirt-redfish-0.2.3.tgz
+    version: 0.2.3
+  - apiVersion: v2
     appVersion: v0.2.2-fee285c
-    created: "2025-10-05T02:35:41.494249226Z"
+    created: "2025-10-07T03:41:08.600377207Z"
     description: Custom kubevirt-redfish chart with enhanced features
     digest: f92a679f2429e94df4a1ab8297bc3d749a3f08d365d78d4eb158d032dbdf33ea
     home: https://github.com/kubevirt/kubevirt-redfish
@@ -25,7 +47,7 @@ entries:
     version: 0.2.2
   - apiVersion: v2
     appVersion: v0.2.1-fee285c1
-    created: "2025-10-05T02:35:41.493380783Z"
+    created: "2025-10-07T03:41:08.599521657Z"
     description: Custom kubevirt-redfish chart with enhanced features
     digest: 1fa72f48e13575ed80c5c13f1f4f1f2ff71721d1594a76427ddf83ec9a9fe6ee
     home: https://github.com/kubevirt/kubevirt-redfish
@@ -47,7 +69,7 @@ entries:
     version: 0.2.1-fee285c1
   - apiVersion: v2
     appVersion: v0.2.1
-    created: "2025-10-05T02:35:41.492451499Z"
+    created: "2025-10-07T03:41:08.598623026Z"
     description: A Helm chart that provides a Redfish API server for KubeVirt VMs
     digest: a243ba0c35b589e0a20e2919b2dab65cf139fe84914de110d6e90817200342bf
     home: https://github.com/kubevirt/kubevirt-redfish
@@ -69,7 +91,7 @@ entries:
     version: 0.2.1-73abb30
   - apiVersion: v2
     appVersion: v0.2.0
-    created: "2025-10-05T02:35:41.491538343Z"
+    created: "2025-10-07T03:41:08.597702864Z"
     description: A Helm chart that provides a Redfish API server for KubeVirt VMs
     digest: 0e736215a0a05dafd5702e6093400c2d0050174d69477d5b664d048ee79de925
     home: https://github.com/kubevirt/kubevirt-redfish
@@ -92,9 +114,9 @@ entries:
   ocp-on-cnv:
   - apiVersion: v2
     appVersion: v0.1.1-ac971ff
-    created: "2025-10-05T02:35:41.495427902Z"
+    created: "2025-10-07T03:41:08.602374674Z"
     description: 'Deprecated: VMs w/Fakefish for ZTP testing'
-    digest: 41ac17f41f8e52bbb98dc18f0d5a189d9b0f75238083741590d207be96357fb7
+    digest: 2d18922a4ddd7995c61cb9412cad740edf5fee2a5e631dc8cdf60902a74559ad
     name: ocp-on-cnv
     type: application
     urls:
@@ -102,7 +124,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2025-10-05T02:35:41.494983842Z"
+    created: "2025-10-07T03:41:08.602005303Z"
     description: This helm chart can be used to deploy OpenShift on top of OpenShift
       Virtualization using OpenShift's BMO and Fakefish.
     digest: aef476a611be690d3e86a45532ace9bd57fca4981cc0ee20df300efcfb5d65e8
@@ -113,7 +135,7 @@ entries:
     version: 0.1.0
   - apiVersion: v2
     appVersion: v0.1.0-ac971ff
-    created: "2025-10-05T02:35:41.494629138Z"
+    created: "2025-10-07T03:41:08.601633247Z"
     description: 'Deprecated: VMs w/Fakefish for ZTP testing'
     digest: 7943b24d547a92c0209cda5293ed98a3d9aaadb26dc569003a01feba65527a45
     name: ocp-on-cnv
@@ -124,10 +146,10 @@ entries:
   vms-on-ocpv:
   - apiVersion: v2
     appVersion: v0.1.1-ff18cb3
-    created: "2025-10-05T02:35:41.496767915Z"
+    created: "2025-10-07T03:41:08.603395293Z"
     description: Simple OpenShift Virtualization chart, typically used for kubevirt-redfish
       testing
-    digest: 3e89755724b6789e81fc0372f61ec201633d428ff3bce2e02ae8430247a9c73c
+    digest: c042c1e16fc5308587dfbaef6006c146aa80bd78f1540802c49a5ed44f0e7a1e
     home: https://github.com/v1k0d3n/vms-on-ocpv
     keywords:
     - kubevirt
@@ -146,7 +168,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: v0.1.0-ff18cb3
-    created: "2025-10-05T02:35:41.495810618Z"
+    created: "2025-10-07T03:41:08.602670688Z"
     description: Simple OpenShift Virtualization chart, typically used for kubevirt-redfish
       testing
     digest: ffa58bbbb5c0bed7cc7d92337035c1f0bdeb6d5d8a9e3cdfa9207edd44609bf2
@@ -166,4 +188,4 @@ entries:
     urls:
     - https://v1k0d3n.github.io/charts/vms-on-ocpv/vms-on-ocpv-0.1.0.tgz
     version: 0.1.0
-generated: "2025-10-05T02:35:41.490350691Z"
+generated: "2025-10-07T03:41:08.596519942Z"
