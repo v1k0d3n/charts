@@ -54,6 +54,7 @@ update-chart: ## Update a specific chart (use CHART=chartname)
 	fi
 	@$(MAKE) fetch-chart CHART=$(CHART)
 	@$(MAKE) apply-overrides CHART=$(CHART)
+	@$(MAKE) update-dependencies CHART=$(CHART)
 	@$(MAKE) package-chart CHART=$(CHART)
 	@echo "Chart $(CHART) updated successfully"
 
@@ -113,6 +114,30 @@ fetch-chart: ## Fetch chart from source repository
 	else \
 		echo "Fetching latest version"; \
 		helm pull $$repo_url/$(CHART) --untar --untardir $(TEMP_DIR); \
+	fi
+
+# Update chart dependencies
+.PHONY: update-dependencies
+update-dependencies: ## Update Helm chart dependencies
+	@echo "Updating dependencies for chart $(CHART)..."
+	@if [ ! -d "$(TEMP_DIR)/$(CHART)" ]; then \
+		echo "Error: Chart source not found in $(TEMP_DIR)/$(CHART)"; \
+		exit 1; \
+	fi
+	@if [ -f "$(TEMP_DIR)/$(CHART)/Chart.yaml" ]; then \
+		cd $(TEMP_DIR)/$(CHART) && \
+		if grep -q "dependencies:" Chart.yaml; then \
+			echo "Dependencies found in Chart.yaml, updating..."; \
+			if ! helm dependency update; then \
+				echo "Error: Failed to update dependencies"; \
+				cd $(CURDIR); \
+				exit 1; \
+			fi; \
+		else \
+			echo "No dependencies found in Chart.yaml, skipping dependency update"; \
+		fi; \
+	else \
+		echo "Warning: Chart.yaml not found, skipping dependency update"; \
 	fi
 
 # Package chart
