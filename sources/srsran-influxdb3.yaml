@@ -1,0 +1,16 @@
+# srsRAN influxdb chart source configuration
+repo_url: https://github.com/srsran/srsRAN_Project_helm
+chart_path: charts/influxdb3
+ref: main
+
+# Values overrides - these will be merged with the original values.yaml
+values_overrides:
+  image:
+    repository: docker.io/library/influxdb
+    tag: "3.1.0-core"
+
+# Chart metadata overrides - these will override Chart.yaml fields
+chart_overrides:
+  version: 1.0.0
+  appVersion: "3.1.0-core"
+  description: "Custom srsran-influxdb chart packaged by Brandon B. Jozsa"
