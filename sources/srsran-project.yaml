@@ -1,0 +1,16 @@
+# srsRAN project chart source configuration
+repo_url: https://github.com/srsran/srsRAN_Project_helm
+chart_path: charts/srsran-project
+ref: main
+
+# Values overrides - these will be merged with the original values.yaml
+values_overrides:
+  image:
+    repository: docker.io/softwareradiosystems/srsran-project
+    tag: "release_avx512-11c9bbabb6__2025-09-15"
+
+# Chart metadata overrides - these will override Chart.yaml fields
+chart_overrides:
+  version: 2.3.1
+  appVersion: "25.04"
+  description: "Custom srsran-project chart packaged by Brandon B. Jozsa"
