@@ -1,0 +1,16 @@
+# srsRAN metrics-server chart source configuration
+repo_url: https://github.com/srsran/srsRAN_Project_helm
+chart_path: charts/metrics_server
+ref: main
+
+# Values overrides - these will be merged with the original values.yaml
+values_overrides:
+  image:
+    repository: docker.io/softwareradiosystems/metrics-server
+    tag: "latest"
+
+# Chart metadata overrides - these will override Chart.yaml fields
+chart_overrides:
+  version: 1.2.0
+  appVersion: "2024.10.0"
+  description: "Custom srsran-metrics-server chart packaged by Brandon B. Jozsa"
