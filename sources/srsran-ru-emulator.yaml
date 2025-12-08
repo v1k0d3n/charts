@@ -1,0 +1,16 @@
+# srsRAN RU emulator chart source configuration
+repo_url: https://github.com/srsran/srsRAN_Project_helm
+chart_path: charts/ru_emulator
+ref: main
+
+# Values overrides - these will be merged with the original values.yaml
+values_overrides:
+  image:
+    repository: docker.io/softwareradiosystems/srsran-project
+    tag: "split72_release_avx512"
+
+# Chart metadata overrides - these will override Chart.yaml fields
+chart_overrides:
+  version: 1.1.0
+  appVersion: "2024.10.0"
+  description: "Custom srsran-emulator chart packaged by Brandon B. Jozsa"
