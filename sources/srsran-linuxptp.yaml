@@ -1,0 +1,16 @@
+# srsRAN PTP chart source configuration
+repo_url: https://github.com/srsran/srsRAN_Project_helm
+chart_path: charts/linuxptp
+ref: main
+
+# Values overrides - these will be merged with the original values.yaml
+values_overrides:
+  image:
+    repository: docker.io/softwareradiosystems/linuxptp
+    tag: "v4.4_1.2.0"
+
+# Chart metadata overrides - these will override Chart.yaml fields
+chart_overrides:
+  version: 1.3.1
+  appVersion: "4.4.0"
+  description: "Custom srsran-ptp chart packaged by Brandon B. Jozsa"
