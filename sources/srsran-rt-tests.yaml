@@ -1,0 +1,16 @@
+# srsRAN real-time testing chart source configuration
+repo_url: https://github.com/srsran/srsRAN_Project_helm
+chart_path: charts/rt-tests
+ref: main
+
+# Values overrides - these will be merged with the original values.yaml
+values_overrides:
+  image:
+    repository: docker.io/softwareradiosystems/rt-tests
+    tag: "v2.8"
+
+# Chart metadata overrides - these will override Chart.yaml fields
+chart_overrides:
+  version: 1.0.0
+  appVersion: "2.8"
+  description: "Custom srsran-test chart packaged by Brandon B. Jozsa"
