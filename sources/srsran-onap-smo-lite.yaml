@@ -1,0 +1,41 @@
+# srsRAN onap-smo-lite chart source configuration
+repo_url: https://github.com/srsran/srsRAN_Project_helm
+chart_path: charts/onap-smo-lite
+ref: main
+
+# Values overrides - these will be merged with the original values.yaml
+values_overrides:
+  sdncWeb:
+    image:
+      repository: nexus3.onap.org:10001/onap/sdnc-web-image
+      tag: 3.1.1-STAGING-latest
+  sdnr:
+    image:
+      repository: nexus3.onap.org:10001/onap/sdnc-image
+      tag: 3.1.1-STAGING-latest
+  sdnrdb:
+    image:
+      repository: docker.elastic.co/elasticsearch/elasticsearch-oss
+      tag: 7.9.3
+  zookeeper:
+    image:
+      repository: quay.io/strimzi/kafka
+      tag: 0.43.0-kafka-3.8.0
+  kafka:
+    image:
+      repository: quay.io/strimzi/kafka
+      tag: 0.43.0-kafka-3.8.0
+  kafkaUi:
+    image:
+      repository: docker.io/provectuslabs/kafka-ui
+      tag: v0.7.2
+  vesCollector:
+    image:
+      repository: nexus3.onap.org:10001/onap/org.onap.dcaegen2.collectors.ves.vescollector
+      tag: 1.12.4
+
+# Chart metadata overrides - these will override Chart.yaml fields
+chart_overrides:
+  version: 0.3.0
+  appVersion: "1.0.0"
+  description: "Custom srsran onap-smo-lite chart packaged by Brandon B. Jozsa"
