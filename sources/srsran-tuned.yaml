@@ -1,0 +1,16 @@
+# srsRAN tuned chart source configuration
+repo_url: https://github.com/srsran/srsRAN_Project_helm
+chart_path: charts/tuned
+ref: main
+
+# Values overrides - these will be merged with the original values.yaml
+values_overrides:
+  image:
+    repository: docker.io/softwareradiosystems/tuned
+    tag: "v2.21.0_1.0.0"
+
+# Chart metadata overrides - these will override Chart.yaml fields
+chart_overrides:
+  version: 0.5.0
+  appVersion: "1.0.0"
+  description: "Custom srsran-tuned chart packaged by Brandon B. Jozsa"
