@@ -30,7 +30,10 @@ update-charts: ## Update all charts to their latest versions
 	@if [ -d "$(SOURCES_DIR)" ] && [ -n "$$(ls $(SOURCES_DIR)/*.yaml 2>/dev/null)" ]; then \
 		for chart in $$(ls $(SOURCES_DIR)/*.yaml | xargs -n1 basename -s .yaml); do \
 			echo "Processing chart: $$chart"; \
-			$(MAKE) update-chart CHART=$$chart; \
+			if ! $(MAKE) update-chart CHART=$$chart; then \
+				echo "Error: Failed to update chart $$chart"; \
+				exit 1; \
+			fi; \
 		done; \
 	else \
 		echo "No chart sources found in $(SOURCES_DIR)"; \
@@ -70,8 +73,15 @@ fetch-chart: ## Fetch chart from source repository
 	elif [ -n "$$ref" ]; then \
 		echo "Fetching from git ref $$ref"; \
 		rm -rf $(TEMP_DIR)/$(CHART)-src; \
-		git clone $$repo_url $(TEMP_DIR)/$(CHART)-src; \
-		cd $(TEMP_DIR)/$(CHART)-src && git checkout $$ref; \
+		if ! git clone $$repo_url $(TEMP_DIR)/$(CHART)-src; then \
+			echo "Error: Failed to clone repository $$repo_url"; \
+			exit 1; \
+		fi; \
+		cd $(TEMP_DIR)/$(CHART)-src && if ! git checkout $$ref; then \
+			echo "Error: Failed to checkout ref $$ref"; \
+			cd $(CURDIR); \
+			exit 1; \
+		fi; \
 		echo "Debug: Current directory: $$(pwd)"; \
 		echo "Debug: Git status:"; \
 		git status; \
@@ -84,14 +94,20 @@ fetch-chart: ## Fetch chart from source repository
 			echo "Debug: Chart path found!"; \
 			ls -la "$$chart_path"; \
 		else \
-			echo "Debug: Chart path not found. Available directories:"; \
+			echo "Error: Chart path '$$chart_path' not found in repository"; \
+			echo "Debug: Available directories:"; \
 			ls -la; \
 			echo "Debug: Trying to find helm directory:"; \
 			find . -name "helm" -type d 2>/dev/null || echo "No helm directory found"; \
+			cd $(CURDIR); \
+			exit 1; \
 		fi; \
 		cd $(CURDIR); \
 		echo "Debug: Copying from $(TEMP_DIR)/$(CHART)-src/$$chart_path to $(TEMP_DIR)/$(CHART)"; \
-		cp -r $(TEMP_DIR)/$(CHART)-src/$$chart_path $(TEMP_DIR)/$(CHART); \
+		if ! cp -r $(TEMP_DIR)/$(CHART)-src/$$chart_path $(TEMP_DIR)/$(CHART); then \
+			echo "Error: Failed to copy chart from $(TEMP_DIR)/$(CHART)-src/$$chart_path"; \
+			exit 1; \
+		fi; \
 		echo "Debug: Contents of destination directory:"; \
 		ls -la $(TEMP_DIR)/$(CHART)/; \
 	else \

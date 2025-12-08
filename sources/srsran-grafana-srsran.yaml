@@ -1,6 +1,6 @@
 # srsRAN Grafana chart source configuration
 repo_url: https://github.com/srsran/srsRAN_Project_helm
-chart_path: grafana-srsran
+chart_path: charts/grafana-srsran
 ref: main
 
 # Values overrides - these will be merged with the original values.yaml
