@@ -10,9 +10,9 @@ entries:
           url: https://github.com/grafana/grafana
     apiVersion: v2
     appVersion: 12.0.2
-    created: "2026-10-18T02:18:58.970225288Z"
+    created: "2026-10-25T02:20:38.33824292Z"
     description: Custom grafana-srsran chart packaged by Brandon B. Jozsa
-    digest: e3296e2b86647fbda26d27fb6ae1cc0150ddc93706336ed84d86260990b67b69
+    digest: 16434e6ac5eb8a7e6c1eb319646bce0314ff587143a4fdb521a4da3c8d4b0d92
     home: https://grafana.com
     icon: https://artifacthub.io/image/b4fed1a7-6c8f-4945-b99d-096efa3e4116
     keywords:
@@ -43,7 +43,7 @@ entries:
   grafana-deployment:
   - apiVersion: v2
     appVersion: 9.2.10
-    created: "2026-10-18T02:18:58.973939996Z"
+    created: "2026-10-25T02:20:38.343458804Z"
     dependencies:
     - alias: grafana
       name: grafana
@@ -58,7 +58,7 @@ entries:
       repository: https://srsran.github.io/srsRAN_Project_helm/
       version: 1.0.0
     description: Custom grafana-srsran chart packaged by Brandon B. Jozsa
-    digest: 7f70f8f3d562e9298477af09489558a005fc0e5bb85794fbfae5165bfe04fb7b
+    digest: 00b6676c261881e4382a691ebef6b9495291e05e2ab7d22aaf28ec3bcf0f5c36
     name: grafana-deployment
     type: application
     urls:
@@ -67,9 +67,9 @@ entries:
   influxdb3:
   - apiVersion: v2
     appVersion: 3.1.0-core
-    created: "2026-10-18T02:18:58.974180083Z"
+    created: "2026-10-25T02:20:38.343747745Z"
     description: Custom srsran-influxdb chart packaged by Brandon B. Jozsa
-    digest: 4482454fe0bb99ae3560b5acc24b192b39d4a834d87792336da2872e30c603b9
+    digest: 0860aeb252b17899b7bafae45d4dfe2fb04e41a9805505b60fd249a64056b92b
     name: influxdb3
     type: application
     urls:
@@ -78,9 +78,9 @@ entries:
   kubevirt-redfish:
   - apiVersion: v2
     appVersion: v0.2.3-f87ff92
-    created: "2026-10-18T02:18:58.965877873Z"
+    created: "2026-10-25T02:20:38.333973327Z"
     description: Custom kubevirt-redfish chart with enhanced features
-    digest: aa01daac868765d0c5a2ebd9edbc9eb262cf6432dd5898e5ced8d12dd69701d7
+    digest: 7f3dd8fee30cbcaeb847ae0c7f5ea7a395e26a1818257d8aec09c7e21d641ad6
     home: https://github.com/kubevirt/kubevirt-redfish
     icon: https://raw.githubusercontent.com/kubevirt/kubevirt/main/logo/kubevirt-logo.png
     keywords:
@@ -100,7 +100,7 @@ entries:
     version: 0.2.3
   - apiVersion: v2
     appVersion: v0.2.2-fee285c
-    created: "2026-10-18T02:18:58.965169085Z"
+    created: "2026-10-25T02:20:38.333086464Z"
     description: Custom kubevirt-redfish chart with enhanced features
     digest: f92a679f2429e94df4a1ab8297bc3d749a3f08d365d78d4eb158d032dbdf33ea
     home: https://github.com/kubevirt/kubevirt-redfish
@@ -122,7 +122,7 @@ entries:
     version: 0.2.2
   - apiVersion: v2
     appVersion: v0.2.1-fee285c1
-    created: "2026-10-18T02:18:58.964470647Z"
+    created: "2026-10-25T02:20:38.332210012Z"
     description: Custom kubevirt-redfish chart with enhanced features
     digest: 1fa72f48e13575ed80c5c13f1f4f1f2ff71721d1594a76427ddf83ec9a9fe6ee
     home: https://github.com/kubevirt/kubevirt-redfish
@@ -144,7 +144,7 @@ entries:
     version: 0.2.1-fee285c1
   - apiVersion: v2
     appVersion: v0.2.1
-    created: "2026-10-18T02:18:58.963734201Z"
+    created: "2026-10-25T02:20:38.331284547Z"
     description: A Helm chart that provides a Redfish API server for KubeVirt VMs
     digest: a243ba0c35b589e0a20e2919b2dab65cf139fe84914de110d6e90817200342bf
     home: https://github.com/kubevirt/kubevirt-redfish
@@ -166,7 +166,7 @@ entries:
     version: 0.2.1-73abb30
   - apiVersion: v2
     appVersion: v0.2.0
-    created: "2026-10-18T02:18:58.963002569Z"
+    created: "2026-10-25T02:20:38.330373739Z"
     description: A Helm chart that provides a Redfish API server for KubeVirt VMs
     digest: 0e736215a0a05dafd5702e6093400c2d0050174d69477d5b664d048ee79de925
     home: https://github.com/kubevirt/kubevirt-redfish
@@ -189,9 +189,9 @@ entries:
   linuxptp:
   - apiVersion: v2
     appVersion: 4.4.0
-    created: "2026-10-18T02:18:58.974654623Z"
+    created: "2026-10-25T02:20:38.344382365Z"
     description: Custom srsran-ptp chart packaged by Brandon B. Jozsa
-    digest: e745155a5f20c474d961b33f1982df3c0ed9a2c9aa5cc4687f81e332c41e19e7
+    digest: de9301ceed349ee31dd790f3c4f1c6ed44668403e2f924bc3dcfa46faa4feb92
     home: https://linuxptp.nwtime.org/
     icon: https://linuxptp.nwtime.org/images/logo.png
     keywords:
@@ -211,9 +211,9 @@ entries:
   metrics-server:
   - apiVersion: v2
     appVersion: 2024.10.0
-    created: "2026-10-18T02:18:58.97488223Z"
+    created: "2026-10-25T02:20:38.344661007Z"
     description: Custom srsran-metrics-server chart packaged by Brandon B. Jozsa
-    digest: de4f4342114aa4c6de1e94d88dc76a29d4f85e8ac39a92e8286c724a832ca52e
+    digest: ea7fd37eb360b26e4be1958bd221935ee658bc1af6fe0c00dec1facf0a09762b
     name: metrics-server
     type: application
     urls:
@@ -222,9 +222,9 @@ entries:
   ocp-on-cnv:
   - apiVersion: v2
     appVersion: v0.1.1-ac971ff
-    created: "2026-10-18T02:18:58.967059519Z"
+    created: "2026-10-25T02:20:38.335118223Z"
     description: 'Deprecated: VMs w/Fakefish for ZTP testing'
-    digest: cdd5f10e2a7f747cf9d0bd9e0c65f806d5a9372b43a7898a5b7dea04e2ef8c58
+    digest: 40dba6bdabc7d24795724cbabd18b7c93822989b0db47a2b23156602a75f27a3
     name: ocp-on-cnv
     type: application
     urls:
@@ -232,7 +232,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: "1.0"
-    created: "2026-10-18T02:18:58.966699895Z"
+    created: "2026-10-25T02:20:38.334737309Z"
     description: This helm chart can be used to deploy OpenShift on top of OpenShift
       Virtualization using OpenShift's BMO and Fakefish.
     digest: aef476a611be690d3e86a45532ace9bd57fca4981cc0ee20df300efcfb5d65e8
@@ -243,7 +243,7 @@ entries:
     version: 0.1.0
   - apiVersion: v2
     appVersion: v0.1.0-ac971ff
-    created: "2026-10-18T02:18:58.966171989Z"
+    created: "2026-10-25T02:20:38.334351205Z"
     description: 'Deprecated: VMs w/Fakefish for ZTP testing'
     digest: 7943b24d547a92c0209cda5293ed98a3d9aaadb26dc569003a01feba65527a45
     name: ocp-on-cnv
@@ -254,9 +254,9 @@ entries:
   onap-smo-lite:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2026-10-18T02:18:58.976504507Z"
+    created: "2026-10-25T02:20:38.346079396Z"
     description: Custom srsran onap-smo-lite chart packaged by Brandon B. Jozsa
-    digest: e627e1debf13b4390c44c373648d95ffdd316a24b0c6b8542ea1319fc88e9a2c
+    digest: 80b801c38c8359369972b2958800a849a035a9cb3c1ba414e76f0eb853ffcb7b
     name: onap-smo-lite
     type: application
     urls:
@@ -265,9 +265,9 @@ entries:
   rt-tests:
   - apiVersion: v2
     appVersion: "2.8"
-    created: "2026-10-18T02:18:58.977421709Z"
+    created: "2026-10-25T02:20:38.347107343Z"
     description: Custom srsran-test chart packaged by Brandon B. Jozsa
-    digest: ef32904874e7e93317eec1b5cd3fcb6d04c1db13fbacb3ed50bc76e59a9147a9
+    digest: aab035842b02fdd7aa1d987e1521b29488beb3f6481acf7caaacacc6b0a030b6
     home: https://wiki.linuxfoundation.org/realtime/documentation/howto/tools/rt-tests
     icon: https://wiki.linuxfoundation.org/_media/wiki/logo.png
     keywords:
@@ -284,9 +284,9 @@ entries:
   ru-emulator:
   - apiVersion: v2
     appVersion: 2024.10.0
-    created: "2026-10-18T02:18:58.977683459Z"
+    created: "2026-10-25T02:20:38.347444535Z"
     description: Custom srsran-emulator chart packaged by Brandon B. Jozsa
-    digest: 17452ddd93c550536603b71f433432423324ac3c25bb81ac27ed897d96598065
+    digest: ab6bf81a8a64d89e8314c906ddca6733c996d5b4578cc1be9df4b4f48d0b2783
     name: ru-emulator
     type: application
     urls:
@@ -295,9 +295,9 @@ entries:
   srsran-cu-du:
   - apiVersion: v2
     appVersion: "25.04"
-    created: "2026-10-18T02:18:58.977183833Z"
+    created: "2026-10-25T02:20:38.346787754Z"
     description: Custom srsran-project chart packaged by Brandon B. Jozsa
-    digest: b88527d3598453fae2af1065d5fe9df0d543286e07a385736e497fca9866c430
+    digest: 21ce5570fb6796f348cefe8a3eba23ebc28fa86763a2f3683eab45d0d6bb9564
     home: https://docs.srsran.com/projects/project/en/latest/
     icon: https://docs.srsran.com/en/latest/_static/logo.png
     keywords:
@@ -318,9 +318,9 @@ entries:
   tuned:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2026-10-18T02:18:58.977906586Z"
+    created: "2026-10-25T02:20:38.347712076Z"
     description: Custom srsran-tuned chart packaged by Brandon B. Jozsa
-    digest: 54ab541a484ada3c430aadbe7d7bd8b3b47842257150aa16200391c797020c72
+    digest: eeb3530e8472865c135cfcb8ae9fdfc99f0eb7cfb20fd81cafe260b19417c22a
     name: tuned
     type: application
     urls:
@@ -329,10 +329,10 @@ entries:
   vms-on-ocpv:
   - apiVersion: v2
     appVersion: v0.1.1-ff18cb3
-    created: "2026-10-18T02:18:58.978340788Z"
+    created: "2026-10-25T02:20:38.348902027Z"
     description: Simple OpenShift Virtualization chart, typically used for kubevirt-redfish
       testing
-    digest: 5f4fc14a7639c8890a06f6c5739d58f196603455da79666f7506d74cae975cd2
+    digest: 4160e40b48b211277ec4bb5ef13ea486fb05b9b2cac77523109abf42122d9606
     home: https://github.com/v1k0d3n/vms-on-ocpv
     keywords:
     - kubevirt
@@ -351,7 +351,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: v0.1.0-ff18cb3
-    created: "2026-10-18T02:18:58.978128917Z"
+    created: "2026-10-25T02:20:38.348051673Z"
     description: Simple OpenShift Virtualization chart, typically used for kubevirt-redfish
       testing
     digest: ffa58bbbb5c0bed7cc7d92337035c1f0bdeb6d5d8a9e3cdfa9207edd44609bf2
@@ -371,4 +371,4 @@ entries:
     urls:
     - https://v1k0d3n.github.io/charts/vms-on-ocpv/vms-on-ocpv-0.1.0.tgz
     version: 0.1.0
-generated: "2026-10-18T02:18:58.961997795Z"
+generated: "2026-10-25T02:20:38.329058073Z"
